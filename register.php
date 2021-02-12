@@ -1,7 +1,7 @@
 <?php
 require_once "conexion.php";
 session_start();
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: index.php");
     exit;
 }
@@ -116,9 +116,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </style>
 </head>
+<header>
 
-<body>
-    <div class="wrapper">
+</header>
+
+<body class="row m-0 bg-white justify-content-center align-items-center vh-100">
+    <nav class="navbar navbar-dark bg-dark">
+        <div>
+            <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
+        </div>
+    </nav>
+    <div class="col-sm-4">
+        <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
         <h2>Registro de Usuario</h2>
         <p>Por favor llene los campos para poder crear un usuario.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">

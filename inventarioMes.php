@@ -1,21 +1,31 @@
 <?php
 include 'conexion.php';
 session_start();
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: index.php");
   exit;
-}?>
+} ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <link rel="shortcut icon" href="CSS/IMG/image001.ico"> 
-    <link rel="stylesheet" href="CSS/bootstrap.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventario del Mes</title>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" href="CSS/IMG/image001.ico">
+  <link rel="stylesheet" href="CSS/bootstrap.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventario</title>
 </head>
+<header>
+  <nav>
+    <div>
+      <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
+    </div>
+  </nav>
+</header>
+
 <body>
-<table class="table table-bordered">
+<img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
+  <table class="table table-bordered">
     <th scope="col">ID</th>
     <th scope="col">Numero de Contenedor</th>
     <th scope="col">Chasis</th>
@@ -27,7 +37,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <th scope="col">Ejes</th>
     <th scope="col">Observacion</th>
     <?php
-    $sel = $con->query("SELECT * FROM contenedores WHERE estado='1'");
+    $sel = $con->query("SELECT * FROM contenedores WHERE estado='Activo'");
     while ($fila = $sel->fetch_assoc()) {
     ?>
       <tr>
@@ -40,11 +50,12 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <td scope="row"><?php echo $fila['hora_ingreso'] ?></td>
         <td scope="row"><?php echo $fila['tamano'] ?></td>
         <td scope="row"><?php echo $fila['ejes'] ?></td>
-        <td scope="row"><?php echo $fila['observacion'] ?></td>
+        <td scope="row"><a href="gate-out.php?id=<?php echo $fila['id'] ?>"><?php echo $fila['observacion'] ?></a></td>
       </tr>
     <?php } ?>
   </table>
   <script src='js/jquery.min.js'></script>
   <script src="JS/bootstrap.js"></script>
 </body>
+
 </html>

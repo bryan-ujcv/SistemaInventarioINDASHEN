@@ -1,5 +1,4 @@
 <?php
-//$con=new mysqli('localhost','root','','indashen')
 $con = mysqli_connect('localhost','root','','indashen');
 
 if($con === false){

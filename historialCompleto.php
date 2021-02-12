@@ -1,6 +1,6 @@
-<?php include 'conexion.php'; 
+<?php include 'conexion.php';
 session_start();
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: index.php");
   exit;
 }
@@ -17,6 +17,16 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 </head>
 
 <body>
+  <div>
+    <nav class="navbar navbar-dark bg-dark justify-content-between">
+      <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </nav>
+    <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
+  </div>
   <table class="table table-bordered">
     <th scope="col">ID</th>
     <th scope="col">Numero de Contenedor</th>
@@ -35,7 +45,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <th scope="col">Dias</th>
     <th scope="col">Tamaño</th>
     <?php
-    $sel = $con->query("SELECT * FROM contenedores");
+    $sel = $con->query("SELECT * FROM contenedores ");
     while ($fila = $sel->fetch_assoc()) {
     ?>
       <tr>

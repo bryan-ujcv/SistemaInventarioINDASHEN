@@ -20,20 +20,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate new password
     if (empty(trim($_POST["new_password"]))) {
-        $new_password_err = "Please enter the new password.";
+        $new_password_err = "Porfavor ingrese la nueva contrasena.";
     } elseif (strlen(trim($_POST["new_password"])) < 6) {
-        $new_password_err = "Password must have atleast 6 characters.";
+        $new_password_err = "la contrasena debe tener al menos 6 caracteres.";
     } else {
         $new_password = trim($_POST["new_password"]);
     }
 
     // Validate confirm password
     if (empty(trim($_POST["confirm_password"]))) {
-        $confirm_password_err = "Please confirm the password.";
+        $confirm_password_err = "Porfavor confirmar contrasena.";
     } else {
         $confirm_password = trim($_POST["confirm_password"]);
         if (empty($new_password_err) && ($new_password != $confirm_password)) {
-            $confirm_password_err = "Password did not match.";
+            $confirm_password_err = "Contrasenas no coinciden.";
         }
     }
 
@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("location: index.php");
                 exit();
             } else {
-                echo "Oops! Something went wrong. Please try again later.";
+                echo "Ocurrio algo imprevisto. Pruebe otra vez mas tarde.";
             }
 
             // Close statement
@@ -89,25 +89,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </style>
 </head>
+<header>
+    <nav>
+        <div>
+            <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
+        </div>
+    </nav>
+</header>
 
-<body>
-    <div class="wrapper">
-        <h2>Reset Password</h2>
-        <p>Please fill out this form to reset your password.</p>
+<body class="row m-0 bg-white justify-content-center align-items-center vh-100">
+    <div class="col-sm-4 wrapper">
+    <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
+        <h2>Cambio de Contraseña</h2>
+        <p>Porfavor llene los campos para cambiar la contraseña.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($new_password_err)) ? 'has-error' : ''; ?>">
-                <label>New Password</label>
+                <label>Nueva Contraseña</label>
                 <input type="password" name="new_password" class="form-control" value="<?php echo $new_password; ?>">
                 <span class="help-block"><?php echo $new_password_err; ?></span>
             </div>
             <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
-                <label>Confirm Password</label>
+                <label>Confirmar Contraseña</label>
                 <input type="password" name="confirm_password" class="form-control">
                 <span class="help-block"><?php echo $confirm_password_err; ?></span>
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Submit">
-                <a class="btn btn-link" href="menuPrincipal.php">Cancel</a>
+                <input type="submit" class="btn btn-primary" value="Cambiar">
+                <a class="btn btn-link" href="menuPrincipal.php">Cancelar</a>
             </div>
         </form>
     </div>
