@@ -16,17 +16,18 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   <title>Inventario</title>
 </head>
 <header>
-  <nav>
-    <div>
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;" justify-content-between navbar-static-top">
       <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
-    </div>
-  </nav>
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
+      </form>
+    </nav>
 </header>
 
 <body>
 <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
-  <table class="table table-bordered">
-    <th scope="col">ID</th>
+  <table id="mytable" class="table table-bordered">
+    <th scope="col thead-dark">ID</th>
     <th scope="col">Numero de Contenedor</th>
     <th scope="col">Chasis</th>
     <th scope="col">Genset</th>
@@ -56,6 +57,21 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   </table>
   <script src='js/jquery.min.js'></script>
   <script src="JS/bootstrap.js"></script>
+  <script>
+    // Write on keyup event of keyword input element
+    $(document).ready(function() {
+      $("#search").keyup(function() {
+        _this = this;
+        // Show only matching TR, hide rest of them
+        $.each($("#mytable tbody tr"), function() {
+          if ($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+            $(this).hide();
+          else
+            $(this).show();
+        });
+      });
+    });
+  </script>
 </body>
 
 </html>
