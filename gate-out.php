@@ -25,7 +25,7 @@ if ($fila = $sel->fetch_assoc()) {
     <title>Gate Out</title>
 </head>
 <header>
-    <nav>
+    <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
         <div>
             <a class="btn btn-danger" href="inventarioMes.php">Atras</a>
         </div>
@@ -33,8 +33,9 @@ if ($fila = $sel->fetch_assoc()) {
 </header>
 
 <body>
+    
+    <div class="container">
     <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
-    <div>
         <form action="update.php" method="post">
             <input type="hidden" name="id" value="<?php echo $id ?>">
             <div class="row">
@@ -54,17 +55,18 @@ if ($fila = $sel->fetch_assoc()) {
                 </div>
                 <div class="col-md-2">
                     <h5>Piloto de Salida</h5>
-                    <input type="text" class="form-control" name="piloto_salida" placeholder="Piloto de Salida"><br>
+                    <input type="text" id="pilotosal" class="form-control" name="piloto_salida" placeholder="Piloto de Salida"><br>
                 </div>
                 <div class="col-md-3">
                     <h5>Placa del Piloto de Salida</h5>
-                    <input type="text" class="form-control" name="placa_piloto_salida" placeholder="Placa del Piloto de Salida"><br>
+                    <input type="text" id="placasal" class="form-control" name="placa_piloto_salida" placeholder="Placa del Piloto de Salida"><br>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-2">
                     <h5>Empresa de Salida</h5>
-                    <select type="text"  class="form-control"  name="empresa_salida" placeholder="Empresa de Salida">
+                    <select type="text" id="empresasal" class="form-control"  name="empresa_salida" placeholder="Empresa de Salida">
+                    <option value="" disabled selected>Seleccionar una Opcion</option>
                         <?php
                         while ($row = mysqli_fetch_array($result)) {
                         ?>
@@ -80,11 +82,13 @@ if ($fila = $sel->fetch_assoc()) {
                     <input type="text" class="form-control"  name="booking" placeholder="Booking"><br><br>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Actualizar</button>
+            <button type="submit" id="update" disabled class="btn btn-primary">Actualizar</button>
         </form>
     </div>
+    
     <script src='js/jquery.min.js'></script>
     <script src="JS/bootstrap.js"></script>
+    <script src="js/validacionesout.js"></script>
 </body>
 
 </html>
