@@ -33,7 +33,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   <header>
     <nav class="navbar navbar-light justify-content-between navbar-static-top" style="background-color: #e3f2fd;">
       <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
-      <button type="submit" id="export_data" name='export_data' value="Export to excel" class="btn btn-info">Export to excel</button>
+      <a href="export-data.php" class="btn btn-success">Exportar a Excel</a>
       <form class="form-inline">
         <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
       </form>
