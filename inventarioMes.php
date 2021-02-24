@@ -4,18 +4,87 @@ session_start();
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: index.php");
   exit;
-} ?>
+}
+include 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
+$connect = new PDO("mysql:host=localhost;dbname=prueba_dashen", "root", "");
+
+
+$query = "SELECT `id`, `num_contenedor`, `chasis`, `placa_chasis`,DATE_FORMAT( `fecha_ingreso`,'%e/%M/%Y','es_HN') as 'fecha_ingreso', `genset`, `tamano`, `ejes`, `observacion`, DATE_FORMAT(`hora_ingreso`,'%r') as 'hora_ingreso' FROM `contenedores` WHERE `estado`='Activo';";
+
+$statement = $connect->prepare($query);
+
+$statement->execute();
+
+$result = $statement->fetchAll();
+
+if (isset($_POST["export"])) {
+
+  $file = new Spreadsheet();
+  $Excel_writer = new Xlsx($file);
+
+  $active_sheet = $file->getActiveSheet();
+  $active_sheet->setTitle("Inventario Disponible");
+
+  $active_sheet->setCellValue('A1', 'ID');
+  $active_sheet->setCellValue('B1', 'Numero de Contenedor');
+  $active_sheet->setCellValue('C1', 'Chasis');
+  $active_sheet->setCellValue('D1', 'Genset');
+  $active_sheet->setCellValue('E1', 'Placa Chasis');
+  $active_sheet->setCellValue('F1', 'Fecha de Ingreso');
+  $active_sheet->setCellValue('G1', 'Hora de Ingreso');
+  $active_sheet->setCellValue('H1', 'Tamaño');
+  $active_sheet->setCellValue('I1', 'Ejes');
+  $active_sheet->setCellValue('J1', 'Observacion');
+
+  $count = 2;
+  $x2 = 1;
+  foreach ($result as $fila) {
+    $active_sheet->setCellValue('A' . $count, $x2++);
+    $active_sheet->setCellValue('B' . $count, $fila["num_contenedor"]);
+    $active_sheet->setCellValue('C' . $count, $fila["chasis"]);
+    $active_sheet->setCellValue('D' . $count, $fila["genset"]);
+    $active_sheet->setCellValue('E' . $count, $fila["placa_chasis"]);
+    $active_sheet->setCellValue('F' . $count, $fila["fecha_ingreso"]);
+    $active_sheet->setCellValue('G' . $count, $fila["hora_ingreso"]);
+    $active_sheet->setCellValue('H' . $count, $fila["tamano"]);
+    $active_sheet->setCellValue('I' . $count, $fila["ejes"]);
+    $active_sheet->setCellValue('J' . $count, $fila["observacion"]);
+
+    $count = $count + 1;
+  }
+
+  $file_name = 'Inventario.xlsx';
+
+  $Excel_writer->save($file_name);
+
+  header('Content-Type: application/x-www-form-urlencoded');
+
+  header('Content-Transfer-Encoding: Binary');
+
+  header("Content-disposition: attachment; filename=\"" . $file_name . "\"");
+
+  readfile($file_name);
+
+  unlink($file_name);
+
+  exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <link rel="shortcut icon" href="CSS/IMG/image001.ico">
-  <link rel="stylesheet" href="CSS/bootstrap.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventario</title>
   <style type="text/css">
-    tr th {
+    thead tr th {
       position: sticky;
       top: 0;
       z-index: 10;
@@ -23,64 +92,66 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     }
 
     .table-responsive {
-      height: 436px;
+      height: 435px;
       overflow: scroll;
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <nav class="navbar navbar-light justify-content-between navbar-static-top" style="background-color: #e3f2fd;">
-      <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
-      <a href="export-data.php" class="btn btn-success">Exportar a Excel</a>
-      <form class="form-inline">
-        <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
-      </form>
-    </nav>
-  </header>
+  <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
+    <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
+    <form method="post">
+      <input type="submit" value="Exportar Inventario" name="export" class="btn btn-success"></input>
+    </form>
+    <form class="form-inline">
+      <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
+    </form>
+  </nav>
   <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
+
   <div class="table-responsive">
-    <table id="mytable" class="table table-bordered table-hover table-sm table-condensed">
-      <tr>
-        <th class="bg-light" scope="col">ID</th>
-        <th class="bg-light" scope="col">Numero de Contenedor</th>
-        <th class="bg-light" scope="col">Chasis</th>
-        <th class="bg-light" scope="col">Genset</th>
-        <th class="bg-light" scope="col">Placa Chasis</th>
-        <th class="bg-light" scope="col">Fecha Ingreso</th>
-        <th class="bg-light" scope="col">Hora Ingreso</th>
-        <th class="bg-light" scope="col">Tamaño</th>
-        <th class="bg-light" scope="col">Ejes</th>
-        <th class="bg-light" scope="col">Observacion</th>
-      </tr>
-      <?php
-      $sel = $con->query("SELECT * FROM contenedores WHERE estado='Activo'");
-      while ($fila = $sel->fetch_assoc()) {
-      ?>
+    <table id="mytable" class="table table-fixed table-bordered table-hover table-sm table-condensed" border="1">
+      <thead>
         <tr>
-          <td scope="row"><?php echo $fila['id'] ?></td>
-          <td scope="row"><a href="gate-out.php?id=<?php echo $fila['id'] ?>"><?php echo $fila['num_contenedor'] ?></a></td>
-          <td scope="row"><?php echo $fila['chasis'] ?></td>
-          <td scope="row"><?php echo $fila['genset'] ?></td>
-          <td scope="row"><?php echo $fila['placa_chasis'] ?></td>
-          <td scope="row"><?php echo $fila['fecha_ingreso'] ?></td>
-          <td scope="row"><?php echo $fila['hora_ingreso'] ?></td>
-          <td scope="row"><?php echo $fila['tamano'] ?></td>
-          <td scope="row"><?php echo $fila['ejes'] ?></td>
-          <td scope="row"><a href="gate-out.php?id=<?php echo $fila['id'] ?>"><?php echo $fila['observacion'] ?></a></td>
+          <th class="bg-light" scope="col">ID</th>
+          <th class="bg-light" scope="col">Numero de Contenedor</th>
+          <th class="bg-light" scope="col">Chasis</th>
+          <th class="bg-light" scope="col">Genset</th>
+          <th class="bg-light" scope="col">Placa Chasis</th>
+          <th class="bg-light" scope="col">Fecha Ingreso</th>
+          <th class="bg-light" scope="col">Hora Ingreso</th>
+          <th class="bg-light" scope="col">Tamaño</th>
+          <th class="bg-light" scope="col">Ejes</th>
+          <th class="bg-light" scope="col">Observacion</th>
+          <th class="bg-light" scope="col"></th>
         </tr>
-      <?php } ?>
+      </thead>
+      <tbody><?php
+              $x = 1;
+              foreach ($result as $fila) {
+              ?>
+          <tr>
+            <th scope="row"><?php echo $x++ ?></th>
+            <td scope="row"><a href="gate-out.php?id=<?php echo $fila['id'] ?>"><?php echo $fila['num_contenedor'] ?></a></td>
+            <td scope="row"><?php echo $fila['chasis'] ?></td>
+            <td scope="row"><?php echo $fila['genset'] ?></td>
+            <td scope="row"><?php echo $fila['placa_chasis'] ?></td>
+            <td scope="row"><?php echo $fila['fecha_ingreso'] ?></td>
+            <td scope="row"><?php echo $fila['hora_ingreso'] ?></td>
+            <td scope="row"><?php echo $fila['tamano'] ?></td>
+            <td scope="row"><?php echo $fila['ejes'] ?></td>
+            <td scope="row"><?php echo $fila['observacion'] ?></td>
+            <td scope="row"><a class="btn btn-primary" href="updateObservacion.php?id=<?php echo $fila['id'] ?>">Editar Observacion</td>
+          </tr>
+        <?php } ?>
+      </tbody>
     </table>
   </div>
-  <script src='js/jquery.min.js'></script>
-  <script src="JS/bootstrap.js"></script>
   <script>
-    // Write on keyup event of keyword input element
     $(document).ready(function() {
       $("#search").keyup(function() {
         _this = this;
-        // Show only matching TR, hide rest of them
         $.each($("#mytable tbody tr"), function() {
           if ($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
             $(this).hide();
@@ -90,6 +161,9 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
       });
     });
   </script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
 </html>
