@@ -15,7 +15,6 @@ $ins=$con->query("INSERT INTO `contenedores` (`id`, `num_contenedor`, `genset`, 
 
 if($ins){
     echo "<script> 
-    alert('Ingresado Correctamente')
     location.href='inventarioMes.php'        
     </script>";
 }else{

@@ -7,8 +7,7 @@ $placas=$_POST['placa_piloto_salida'];
 $empresas=$_POST['empresa_salida'];
 $booking=$_POST['booking'];
 
-$ins=$con->query("UPDATE contenedores SET fecha_salida=CURRENT_DATE(), hora_salida=CURRENT_TIME(), piloto_salida='$pilotos',placa_piloto_salida='$placas',empresa_salida='$empresas',estado= '	
-Inactivo',booking='$booking',dias=(SELECT DATEDIFF(fecha_salida,fecha_ingreso)) WHERE id='$id';");
+$ins=$con->query("UPDATE contenedores SET fecha_salida=CURRENT_DATE(), hora_salida=CURRENT_TIME(), piloto_salida='$pilotos',placa_piloto_salida='$placas',empresa_salida='$empresas',estado= 'Inactivo',booking='$booking',dias=(SELECT DATEDIFF(fecha_salida,fecha_ingreso)+1) WHERE id='$id';");
 
 if($ins){
     echo "<script> 
