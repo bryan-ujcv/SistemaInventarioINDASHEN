@@ -11,13 +11,10 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 $connect = new PDO("mysql:host=localhost;dbname=prueba_dashen", "root", "");
 
-
 $query = "SELECT `id`, `num_contenedor`, `chasis`, `placa_chasis`,DATE_FORMAT(`fecha_ingreso`,'%e/%M/%Y','es_HN') as 'fecha_ingreso', `piloto_ingreso`, `placa_piloto_ingreso`, `empresa_ingreso`, DATE_FORMAT( `fecha_salida`,'%e/%M/%Y','es_HN') as 'fecha_salida', `piloto_salida`, `placa_piloto_salida`, `empresa_salida`, `dias`, `genset`, `booking`, `tamano`, `ejes`, `observacion`, DATE_FORMAT(`hora_ingreso`,'%r','es_HN') as 'hora_ingreso', DATE_FORMAT(`hora_salida`,'%r') as 'hora_salida' FROM `contenedores`";
 
 $statement = $connect->prepare($query);
-
 $statement->execute();
-
 $result = $statement->fetchAll();
 
 if (isset($_POST["export"])) {
@@ -27,7 +24,33 @@ if (isset($_POST["export"])) {
 
   $active_sheet = $file->getActiveSheet();
   $active_sheet->setTitle("Historial Completo");
-  
+
+  $styleArray = [
+    'borders' => [
+      'outline' => [
+        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
+        'color' => ['argb' => 'FF000015'],
+      ],
+    ],
+  ];
+  $active_sheet->getColumnDimension('A')->setAutoSize(true);
+  $active_sheet->getColumnDimension('B')->setAutoSize(true);
+  $active_sheet->getColumnDimension('C')->setAutoSize(true);
+  $active_sheet->getColumnDimension('D')->setAutoSize(true);
+  $active_sheet->getColumnDimension('E')->setAutoSize(true);
+  $active_sheet->getColumnDimension('F')->setAutoSize(true);
+  $active_sheet->getColumnDimension('G')->setAutoSize(true);
+  $active_sheet->getColumnDimension('H')->setAutoSize(true);
+  $active_sheet->getColumnDimension('I')->setAutoSize(true);
+  $active_sheet->getColumnDimension('J')->setAutoSize(true);
+  $active_sheet->getColumnDimension('K')->setAutoSize(true);
+  $active_sheet->getColumnDimension('L')->setAutoSize(true);
+  $active_sheet->getColumnDimension('M')->setAutoSize(true);
+  $active_sheet->getColumnDimension('N')->setAutoSize(true);
+  $active_sheet->getColumnDimension('O')->setAutoSize(true);
+
+  $active_sheet->getStyle('A1:O1')->applyFromArray($styleArray)->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
   $active_sheet->setCellValue('A1', 'ID');
   $active_sheet->setCellValue('B1', 'Numero de Contenedor');
   $active_sheet->setCellValue('C1', 'Chasis');
@@ -45,7 +68,7 @@ if (isset($_POST["export"])) {
   $active_sheet->setCellValue('O1', 'Dias');
 
   $count = 2;
-  
+
   foreach ($result as $fila) {
     $active_sheet->setCellValue('A' . $count, $fila["id"]);
     $active_sheet->setCellValue('B' . $count, $fila["num_contenedor"]);
@@ -63,6 +86,21 @@ if (isset($_POST["export"])) {
     $active_sheet->setCellValue('N' . $count, $fila["empresa_salida"]);
     $active_sheet->setCellValue('O' . $count, $fila["dias"]);
 
+    $active_sheet->getStyle("A$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("B$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("C$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("D$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("E$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("F$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("G$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("H$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("I$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("J$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("K$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("L$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("M$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("N$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("O$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
     $count = $count + 1;
   }
 
@@ -92,33 +130,50 @@ if (isset($_POST["export"])) {
   <link rel="shortcut icon" href="CSS/IMG/image001.ico">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <title>Historial Completo</title>
-  <style type="text/css"> 
-        thead tr th { 
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            background-color: #ffffff;
-        }
-    
-        .table-responsive { 
-            height:435px;
-            overflow:scroll;
-        }
-    </style>
+  <style type="text/css">
+    thead tr th {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background-color: #ffffff;
+    }
+
+    .table-responsive {
+      height: 435px;
+      overflow: scroll;
+    }
+  </style>
 </head>
 
 <body>
-    <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
-      <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
-      <form method="post">
+  <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
+    <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
+    <form method="post">
       <input type="submit" value="Exportar Historial Completo" name="export" class="btn btn-success"></input>
     </form>
-      <a href="reporte-fecha.php" type="button" class="btn btn-success">Reporte por Fecha</a>
-      <form class="form-inline" action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
-        <input class="form-control mr-sm-1" id="search" type="search" placeholder="Buscar" aria-label="Search">
-      </form>
-    </nav>
-    <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
+    <a href="#reporteFecha" role="button" class="btn btn-large btn-success" data-toggle="modal">Reporte por Fecha</a>
+    <form class="form-inline" action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
+      <input class="form-control mr-sm-1" id="search" type="search" placeholder="Buscar" aria-label="Search">
+    </form>
+  </nav>
+  <div id="reporteFecha" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <form method="POST" action="date-range.php">
+            <label>Fecha Desde:</label>
+            <input type="date" class="form-control" placeholder="Start" name="date1" /><br><br>
+            <label>Hasta:</label>
+            <input type="date" class="form-control" placeholder="End" name="date2" /><br>
+            <input type="submit" name="date-repo" class="btn btn-success" value="Generar Reporte por Fecha"></input>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button><br><br>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
   <div class="table-responsive">
     <table id="mytable" class="table table-fixed table-bordered table-hover table-sm table-condensed">
       <thead>

@@ -1,66 +1,119 @@
 <?php
 require 'conexion.php';
+include 'vendor/autoload.php';
 
-if (isset($_POST['search'])) {
-    $date1 = date("Y-m-d", strtotime($_POST['date1']));
-    $date2 = date("Y-m-d", strtotime($_POST['date2']));
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-    $query = mysqli_query($con, "SELECT * FROM `contenedores` WHERE `fecha_ingreso` BETWEEN '$date1' AND '$date2'");
+$connect = new PDO("mysql:host=localhost;dbname=prueba_dashen", "root", "");
+$date1 = date("Y-m-d", strtotime($_POST['date1']));
+$date2 = date("Y-m-d", strtotime($_POST['date2']));
 
-    header('Content-type:application/xls');
-    header('Content-Disposition: attachment; filename=historial desde ' . $date1 . ' hasta ' . $date2 . '.xls');
+$query2 = "SELECT * FROM `contenedores` WHERE `fecha_ingreso` BETWEEN '$date1' AND '$date2'";
 
-    $row = mysqli_num_rows($query);
-    if ($row > 0) {
-        while ($fila = mysqli_fetch_array($query)) {
-?>
-            <tr>
-                <td scope="row"><?php echo $fila['id'] ?></td>
-                <td scope="row"><?php echo $fila['num_contenedor'] ?></td>
-                <td scope="row"><?php echo $fila['chasis'] ?></td>
-                <td scope="row"><?php echo $fila['genset'] ?></td>
-                <td scope="row"><?php echo $fila['tamano'] ?></td>
-                <td scope="row"><?php echo $fila['fecha_ingreso'] ?></td>
-                <td scope="row"><?php echo $fila['piloto_ingreso'] ?></td>
-                <td scope="row"><?php echo $fila['placa_piloto_ingreso'] ?></td>
-                <td scope="row"><?php echo $fila['empresa_ingreso'] ?></td>
-                <td scope="row"><?php echo $fila['fecha_salida'] ?></td>
-                <td scope="row"><?php echo $fila['booking'] ?></td>
-                <td scope="row"><?php echo $fila['piloto_salida'] ?></td>
-                <td scope="row"><?php echo $fila['placa_piloto_salida'] ?></td>
-                <td scope="row"><?php echo $fila['empresa_salida'] ?></td>
-                <td scope="row"><?php echo $fila['dias'] ?></td>
-            </tr>
-        <?php
-        }
-    } else {
-        echo '
-      <tr>
-        <td colspan = "4"><center>Registros no Existen</center></td>
-      </tr>';
-    }
-} else {
-    $query = mysqli_query($con, "SELECT * FROM `contenedores`");
-    while ($fila = mysqli_fetch_array($query)) {
-        ?>
-        <tr>
-            <td scope="row"><?php echo $fila['id'] ?></td>
-            <td scope="row"><?php echo $fila['num_contenedor'] ?></td>
-            <td scope="row"><?php echo $fila['chasis'] ?></td>
-            <td scope="row"><?php echo $fila['genset'] ?></td>
-            <td scope="row"><?php echo $fila['fecha_ingreso'] ?></td>
-            <td scope="row"><?php echo $fila['piloto_ingreso'] ?></td>
-            <td scope="row"><?php echo $fila['placa_piloto_ingreso'] ?></td>
-            <td scope="row"><?php echo $fila['empresa_ingreso'] ?></td>
-            <td scope="row"><?php echo $fila['fecha_salida'] ?></td>
-            <td scope="row"><?php echo $fila['booking'] ?></td>
-            <td scope="row"><?php echo $fila['piloto_salida'] ?></td>
-            <td scope="row"><?php echo $fila['placa_piloto_salida'] ?></td>
-            <td scope="row"><?php echo $fila['empresa_salida'] ?></td>
-            <td scope="row"><?php echo $fila['dias'] ?></td>
-            <td scope="row"><?php echo $fila['tamano'] ?></td>
-        </tr>
-<?php
-    }
+$statement2 = $connect->prepare($query2);
+$statement2->execute();
+$result2 = $statement2->fetchAll();
+
+if (isset($_POST["date-repo"])) {
+
+  $file = new Spreadsheet();
+  $Excel_writer = new Xlsx($file);
+
+  $active_sheet = $file->getActiveSheet();
+  $active_sheet->setTitle("$date1 hasta $date2");
+
+  $styleArray = [
+    'borders' => [
+      'outline' => [
+        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
+        'color' => ['argb' => 'FF000015'],
+      ],
+    ],
+  ];
+  $active_sheet->getColumnDimension('A')->setAutoSize(true);
+  $active_sheet->getColumnDimension('B')->setAutoSize(true);
+  $active_sheet->getColumnDimension('C')->setAutoSize(true);
+  $active_sheet->getColumnDimension('D')->setAutoSize(true);
+  $active_sheet->getColumnDimension('E')->setAutoSize(true);
+  $active_sheet->getColumnDimension('F')->setAutoSize(true);
+  $active_sheet->getColumnDimension('G')->setAutoSize(true);
+  $active_sheet->getColumnDimension('H')->setAutoSize(true);
+  $active_sheet->getColumnDimension('I')->setAutoSize(true);
+  $active_sheet->getColumnDimension('J')->setAutoSize(true);
+  $active_sheet->getColumnDimension('K')->setAutoSize(true);
+  $active_sheet->getColumnDimension('L')->setAutoSize(true);
+  $active_sheet->getColumnDimension('M')->setAutoSize(true);
+  $active_sheet->getColumnDimension('N')->setAutoSize(true);
+  $active_sheet->getColumnDimension('O')->setAutoSize(true);
+
+  $active_sheet->getStyle('A1:O1')->applyFromArray($styleArray)->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+  $active_sheet->setCellValue('A1', 'ID');
+  $active_sheet->setCellValue('B1', 'Numero de Contenedor');
+  $active_sheet->setCellValue('C1', 'Chasis');
+  $active_sheet->setCellValue('D1', 'Genset');
+  $active_sheet->setCellValue('E1', 'Tamaño');
+  $active_sheet->setCellValue('F1', 'Fecha de Ingreso');
+  $active_sheet->setCellValue('G1', 'Piloto de Ingreso');
+  $active_sheet->setCellValue('H1', 'Placa de Piloto de Ingreso');
+  $active_sheet->setCellValue('I1', 'Empresa de Ingreso');
+  $active_sheet->setCellValue('J1', 'Fecha de Salida');
+  $active_sheet->setCellValue('K1', 'Booking de Salida');
+  $active_sheet->setCellValue('L1', 'Piloto de Salida');
+  $active_sheet->setCellValue('M1', 'Placa de Piloto de Salida');
+  $active_sheet->setCellValue('N1', 'Empresa de Salida');
+  $active_sheet->setCellValue('O1', 'Dias');
+
+  $count = 2;
+  foreach ($result2 as $fila) {
+    $active_sheet->setCellValue('A' . $count, $fila["id"]);
+    $active_sheet->setCellValue('B' . $count, $fila["num_contenedor"]);
+    $active_sheet->setCellValue('C' . $count, $fila["chasis"]);
+    $active_sheet->setCellValue('D' . $count, $fila["genset"]);
+    $active_sheet->setCellValue('E' . $count, $fila["tamano"]);
+    $active_sheet->setCellValue('F' . $count, $fila["fecha_ingreso"]);
+    $active_sheet->setCellValue('G' . $count, $fila["piloto_ingreso"]);
+    $active_sheet->setCellValue('H' . $count, $fila["placa_piloto_ingreso"]);
+    $active_sheet->setCellValue('I' . $count, $fila["empresa_ingreso"]);
+    $active_sheet->setCellValue('J' . $count, $fila["fecha_salida"]);
+    $active_sheet->setCellValue('K' . $count, $fila["booking"]);
+    $active_sheet->setCellValue('L' . $count, $fila["piloto_salida"]);
+    $active_sheet->setCellValue('M' . $count, $fila["placa_piloto_salida"]);
+    $active_sheet->setCellValue('N' . $count, $fila["empresa_salida"]);
+    $active_sheet->setCellValue('O' . $count, $fila["dias"]);
+
+    $active_sheet->getStyle("A$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("B$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("C$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("D$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("E$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("F$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("G$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("H$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("I$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("J$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("K$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("L$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("M$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("N$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("O$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $count = $count + 1;
+  }
+  $file_name = 'Historial desde '.$date1.' hasta '.$date2.'.xlsx';
+
+  $Excel_writer->save($file_name);
+
+  header('Content-Type: application/x-www-form-urlencoded');
+
+  header('Content-Transfer-Encoding: Binary');
+
+  header("Content-disposition: attachment; filename=\"" . $file_name . "\"");
+
+  readfile($file_name);
+
+  unlink($file_name);
+
+  exit;
 }
 ?>

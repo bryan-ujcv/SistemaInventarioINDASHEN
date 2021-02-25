@@ -29,6 +29,26 @@ if (isset($_POST["export"])) {
   $active_sheet = $file->getActiveSheet();
   $active_sheet->setTitle("Inventario Disponible");
 
+  $styleArray = [
+    'borders' => [
+      'outline' => [
+        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
+        'color' => ['argb' => 'FF000015'],
+      ],
+    ],
+  ];
+
+  $active_sheet->getColumnDimension('A')->setAutoSize(true);
+  $active_sheet->getColumnDimension('B')->setAutoSize(true);
+  $active_sheet->getColumnDimension('C')->setAutoSize(true);
+  $active_sheet->getColumnDimension('D')->setAutoSize(true);
+  $active_sheet->getColumnDimension('E')->setAutoSize(true);
+  $active_sheet->getColumnDimension('F')->setAutoSize(true);
+  $active_sheet->getColumnDimension('G')->setAutoSize(true);
+  $active_sheet->getColumnDimension('H')->setAutoSize(true);
+  $active_sheet->getColumnDimension('I')->setAutoSize(true);
+  $active_sheet->getColumnDimension('J')->setAutoSize(true);
+
   $active_sheet->setCellValue('A1', 'ID');
   $active_sheet->setCellValue('B1', 'Numero de Contenedor');
   $active_sheet->setCellValue('C1', 'Chasis');
@@ -53,6 +73,17 @@ if (isset($_POST["export"])) {
     $active_sheet->setCellValue('H' . $count, $fila["tamano"]);
     $active_sheet->setCellValue('I' . $count, $fila["ejes"]);
     $active_sheet->setCellValue('J' . $count, $fila["observacion"]);
+
+    $active_sheet->getStyle("A$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("B$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("C$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("D$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("E$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("F$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("G$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("H$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("I$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("J$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
 
     $count = $count + 1;
   }
@@ -111,7 +142,7 @@ if (isset($_POST["export"])) {
   <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
 
   <div class="table-responsive">
-    <table id="mytable" class="table table-fixed table-bordered table-hover table-sm table-condensed" border="1">
+    <table id="mytable" class="table table-fixed table-bordered table-hover table-sm table-condensed">
       <thead>
         <tr>
           <th class="bg-light" scope="col">ID</th>
