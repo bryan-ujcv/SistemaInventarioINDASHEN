@@ -1,5 +1,10 @@
 <?php
 include 'conexion.php';
+session_start();
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+  header("location: index.php");
+  exit;
+}
 
 $id = $_REQUEST['id'];
 $sel = $con->query("SELECT * FROM contenedores WHERE id = '$id';");

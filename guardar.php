@@ -11,16 +11,20 @@ $tamano=$_POST['tamano'];
 $ejes=$_POST['ejes'];
 $observacion=$_POST['observacion'];
 
-$ins=$con->query("INSERT INTO `contenedores` (`id`, `num_contenedor`, `genset`, `chasis`, `placa_chasis`, `fecha_ingreso`, `piloto_ingreso`, `placa_piloto_ingreso`, `empresa_ingreso`, `estado`,`tamano`,`ejes`,`observacion`,`hora_ingreso`) VALUES (NULL, '$cont','$gen', '$chas' ,'$placha', CURRENT_DATE(), '$pilotoi', '$placai', '$empresai','Activo','$tamano','$ejes','$observacion', CURRENT_TIME());");
+$query="INSERT INTO `contenedores` (`id`, `num_contenedor`, `genset`, `chasis`, `placa_chasis`, `fecha_ingreso`, `piloto_ingreso`, `placa_piloto_ingreso`, `empresa_ingreso`, `estado`,`tamano`,`ejes`,`observacion`,`hora_ingreso`) VALUES (NULL, '$cont','$gen', '$chas' ,'$placha', CURRENT_DATE(), '$pilotoi', '$placai', '$empresai','Activo','$tamano','$ejes','$observacion', CURRENT_TIME());";
+
+$ins=mysqli_query($con,$query);
+//$ins=$con->query("INSERT INTO `contenedores` (`id`, `num_contenedor`, `genset`, `chasis`, `placa_chasis`, `fecha_ingreso`, `piloto_ingreso`, `placa_piloto_ingreso`, `empresa_ingreso`, `estado`,`tamano`,`ejes`,`observacion`,`hora_ingreso`) VALUES (NULL, '$cont','$gen', '$chas' ,'$placha', CURRENT_DATE(), '$pilotoi', '$placai', '$empresai','Activo','$tamano','$ejes','$observacion', CURRENT_TIME());");
 
 if($ins){
     echo "<script> 
     location.href='inventarioMes.php'        
     </script>";
 }else{
-    echo "<script> 
-    alert('Error al Ingresar Datos')
-    location.href='gate-in.php'        
-    </script>";
+    echo "Error al Ingresar Datos ERROR: Could not able to execute $ins. " . mysqli_error($con);
+    //<script> 
+    // alert(');
+    // location.href='gate-in.php'        
+    // </script>";
 }
 ?>
