@@ -51,6 +51,10 @@ if ($fila = $sel->fetch_assoc()) {
                     <h5>Observacion</h5>
                     <input type="text" id="observacion" class="form-control" name="observacion" placeholder="Observacion" value="<?php echo $fila['observacion'] ?>"><br>
                 </div>
+                <div class="col-md-2">
+                    <h5>Fecha de Ingreso</h5>
+                    <input type="date" id="fecha_ingreso" class="form-control" name="fecha_ingreso" placeholder="Fecha de Ingreso" value="<?php echo $fila['fecha_ingreso'] ?>"><br>
+                </div>
             </div>
             <button type="submit" id="update"  class="btn btn-primary">Actualizar</button>
         </form>

@@ -3,8 +3,9 @@ include 'conexion.php';
 
 $id=$_POST['id'];
 $observacion=$_POST['observacion'];
+$fecha=$_POST['fecha_ingreso'];
 
-$up=$con->query("UPDATE contenedores SET observacion='$observacion' WHERE id='$id';");
+$up=$con->query("UPDATE contenedores SET observacion='$observacion', fecha_ingreso='$fecha' WHERE id='$id';");
 
 if($up){
     echo "<script> 
