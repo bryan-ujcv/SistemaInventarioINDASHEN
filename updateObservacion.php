@@ -2,8 +2,8 @@
 include 'conexion.php';
 session_start();
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-  header("location: index.php");
-  exit;
+    header("location: index.php");
+    exit;
 }
 
 $id = $_REQUEST['id'];
@@ -23,13 +23,13 @@ if ($fila = $sel->fetch_assoc()) {
 </head>
 
 <body>
-<nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
+    <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
         <div>
             <a class="btn btn-danger" href="inventarioMes.php">Atras</a>
         </div>
     </nav>
     <div class="container">
-    <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
+        <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
         <form action="updObservacion.php" method="post">
             <input type="hidden" name="id" value="<?php echo $id ?>">
             <div class="row">
@@ -56,13 +56,17 @@ if ($fila = $sel->fetch_assoc()) {
                     <input type="date" id="fecha_ingreso" class="form-control" name="fecha_ingreso" placeholder="Fecha de Ingreso" value="<?php echo $fila['fecha_ingreso'] ?>"><br>
                 </div>
             </div>
-            <button type="submit" id="update"  class="btn btn-primary">Actualizar</button>
+            <button type="submit" id="update" class="btn btn-primary">Actualizar</button>
         </form>
     </div>
-    
+    <nav class="navbar fixed-bottom ">
+        <div class="container-fluid">
+            <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
+        </div>
+    </nav>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
 </html>
