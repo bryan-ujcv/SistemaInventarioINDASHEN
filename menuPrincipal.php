@@ -34,10 +34,10 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pilotos</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="ModuloPilotos/historialCompleto.php">Pilotos Disponibles</a>
-                    <a class="dropdown-item" href="ModuloPilotos/gate-in.php">historial Completo</a>
+                    <a class="dropdown-item" href="ModuloPilotos/pilotosDisponibles.php">Pilotos Disponibles</a>
+                    <a class="dropdown-item" href="ModuloPilotos/historialCompletoPilotos.php">historial Completo</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="ModuloPilotos/inventarioMes.php">Ingreso de Pilotos</a>
+                    <a class="dropdown-item" href="ModuloPilotos/ingresoPilotos.php">Ingreso de Pilotos</a>
                 </div>
             </li>
             <!-- <li class="nav-item">
