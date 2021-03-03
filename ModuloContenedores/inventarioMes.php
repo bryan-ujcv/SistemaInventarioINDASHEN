@@ -1,11 +1,11 @@
 <?php
-include 'conexion.php';
+include '../conexion.php';
 session_start();
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: index.php");
   exit;
 }
-include 'vendor/autoload.php';
+include '../vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -110,7 +110,7 @@ if (isset($_POST["export"])) {
 
 <head>
   <meta charset="UTF-8">
-  <link rel="shortcut icon" href="CSS/IMG/image001.ico">
+  <link rel="shortcut icon" href="../CSS/IMG/image001.ico">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventario</title>
@@ -131,7 +131,7 @@ if (isset($_POST["export"])) {
 
 <body>
   <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
-    <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
+    <a class="btn btn-danger" href="../menuPrincipal.php">Atras</a>
     <form method="post">
       <input type="submit" value="Exportar Inventario" name="export" class="btn btn-success"></input>
     </form>
@@ -139,7 +139,7 @@ if (isset($_POST["export"])) {
       <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
     </form>
   </nav>
-  <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
+  <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
 
   <div class="table-responsive">
     <table id="mytable" class="table table-fixed table-bordered table-hover table-sm table-condensed">
@@ -179,7 +179,7 @@ if (isset($_POST["export"])) {
       </tbody>
     </table>
   </div>
-  <nav class="navbar ">
+  <nav class="navbar " style="background-color: #e3f2fd;">
     <div class="container-fluid">
       <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
     </div>

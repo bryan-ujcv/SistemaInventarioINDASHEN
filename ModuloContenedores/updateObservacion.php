@@ -1,5 +1,5 @@
 <?php
-include 'conexion.php';
+include '../conexion.php';
 session_start();
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: index.php");
@@ -18,7 +18,7 @@ if ($fila = $sel->fetch_assoc()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="shortcut icon" href="CSS/IMG/image001.png">
+    <link rel="shortcut icon" href="../CSS/IMG/image001.png">
     <title>Gate Out</title>
 </head>
 
@@ -29,7 +29,7 @@ if ($fila = $sel->fetch_assoc()) {
         </div>
     </nav>
     <div class="container">
-        <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
+        <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
         <form action="updObservacion.php" method="post">
             <input type="hidden" name="id" value="<?php echo $id ?>">
             <div class="row">
@@ -59,7 +59,7 @@ if ($fila = $sel->fetch_assoc()) {
             <button type="submit" id="update" class="btn btn-primary">Actualizar</button>
         </form>
     </div>
-    <nav class="navbar fixed-bottom ">
+    <nav class="navbar fixed-bottom " style="background-color: #e3f2fd;">
         <div class="container-fluid">
             <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
         </div>

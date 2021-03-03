@@ -20,14 +20,25 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 <body>
     <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
         <ul class="nav justify-content-end">
-            <li class="nav-item">
-                <a class="nav-link active" href="inventarioMes.php">Inventario</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Contenedores
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="ModuloContenedores/inventarioMes.php">Inventario</a>
+                    <a class="dropdown-item" href="ModuloContenedores/historialCompleto.php">Historial Completo</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="ModuloContenedores/gate-in.php">Gate - In</a>
+                </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="historialCompleto.php">Historial Completo</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="gate-in.php">Gate - In</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pilotos</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="ModuloPilotos/historialCompleto.php">Pilotos Disponibles</a>
+                    <a class="dropdown-item" href="ModuloPilotos/gate-in.php">historial Completo</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="ModuloPilotos/inventarioMes.php">Ingreso de Pilotos</a>
+                </div>
             </li>
             <!-- <li class="nav-item">
                 <a class="nav-link " href="changePass.php">Cambiar Contraseña</a>
@@ -56,7 +67,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             <br><br><br>
         </div>
     </div>
-    <nav class="navbar fixed-bottom ">
+    <nav class="navbar fixed-bottom " style="background-color: #e3f2fd;">
         <div class="container-fluid">
             <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
         </div>

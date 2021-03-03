@@ -78,8 +78,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Login</title>
 </head>
 
-<body class="row m-0 bg-white justify-content-center align-items-center vh-100">
-    <div class="col-sm-4">
+<body >
+<div class="row m-0 bg-white justify-content-center align-items-center vh-100">
+<div class="col-sm-4">
         <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
@@ -97,7 +98,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </form>
     </div>
-    <nav class="navbar fixed-bottom ">
+</div>
+    <nav class="navbar fixed-bottom " style="background-color: #e3f2fd;">
         <div class="container-fluid">
             <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
         </div>

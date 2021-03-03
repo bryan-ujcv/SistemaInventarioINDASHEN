@@ -1,5 +1,5 @@
 <?php
-include 'conexion.php';
+include '../conexion.php';
 session_start();
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: index.php");
@@ -19,17 +19,17 @@ $result2 = mysqli_query($con, $query2);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gate In</title>
-    <link rel="shortcut icon" href="CSS/IMG/image001.ico">
+    <link rel="shortcut icon" href="../CSS/IMG/image001.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body>
     <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
         <div>
-            <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
+            <a class="btn btn-danger" href="../menuPrincipal.php">Atras</a>
         </div>
     </nav>
-    <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
+    <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
     <div class="container">
         <form action="guardar.php" method="post">
             <div class="row">
@@ -104,12 +104,12 @@ $result2 = mysqli_query($con, $query2);
             <button type="submit" id="btn" disabled class="btn btn-primary">Guardar</button>
         </form>
     </div>
-    <nav class="navbar">
+    <nav class="navbar" style="background-color: #e3f2fd;">
         <div class="container-fluid">
             <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
         </div>
     </nav>
-    <script src="js/validaciones.js"></script>
+    <script src="../JS/validaciones.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

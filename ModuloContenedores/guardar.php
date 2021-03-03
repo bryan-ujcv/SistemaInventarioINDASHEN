@@ -1,5 +1,5 @@
 <?php
-include 'conexion.php';
+include '../conexion.php';
 $cont=$_POST['num_contenedor'];
 $chas=$_POST['chasis'];
 $gen=$_POST['genset'];
