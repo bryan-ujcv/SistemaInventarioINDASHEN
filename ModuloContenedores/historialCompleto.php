@@ -11,7 +11,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 $connect = new PDO("mysql:host=localhost;dbname=prueba_dashen", "root", "");
 
-$query = "SELECT `id`, `num_contenedor`, `chasis`, `placa_chasis`,DATE_FORMAT(`fecha_ingreso`,'%e/%M/%Y','es_HN') as 'fecha_ingreso', `piloto_ingreso`, `placa_piloto_ingreso`, `empresa_ingreso`, DATE_FORMAT( `fecha_salida`,'%e/%M/%Y','es_HN') as 'fecha_salida', `piloto_salida`, `placa_piloto_salida`, `empresa_salida`, `dias`, `genset`, `booking`, `tamano`, `ejes`, `observacion`, DATE_FORMAT(`hora_ingreso`,'%r','es_HN') as 'hora_ingreso', DATE_FORMAT(`hora_salida`,'%r') as 'hora_salida' FROM `contenedores`";
+$query = "SELECT `id`, `num_contenedor`, `chasis`, `placa_chasis`, DATE_FORMAT(`fecha_ingreso`,'%e/%M/%Y','es_HN') as 'fecha_ingreso', `piloto_ingreso`, `placa_piloto_ingreso`, `empresa_ingreso`, DATE_FORMAT(`fecha_salida`,'%e/%M/%Y','es_HN') as 'fecha_salida', `piloto_salida`, `placa_piloto_salida`, `empresa_salida`, `dias`, `genset`, `booking`, `tamano`, `ejes`, `observacion`, DATE_FORMAT(`hora_ingreso`,'%r','es_HN') as 'hora_ingreso', DATE_FORMAT(`hora_salida`,'%r','es_HN') as 'hora_salida' FROM `contenedores`";
 
 $statement = $connect->prepare($query);
 $statement->execute();
@@ -129,7 +129,7 @@ if (isset($_POST["export"])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="../CSS/IMG/image001.ico">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <title>Historial Completo</title>
+  
   <style type="text/css">
     thead tr th {
       position: sticky;
@@ -139,14 +139,17 @@ if (isset($_POST["export"])) {
     }
 
     .table-responsive {
-      height: 435px;
+      height: 410px;
       overflow: scroll;
     }
   </style>
+  
+  <title>Historial Completo</title>
 </head>
 
 <body>
   <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
+    <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
     <a class="btn btn-danger" href="../menuPrincipal.php">Atras</a>
     <form method="post">
       <input type="submit" value="Exportar Historial Completo" name="export" class="btn btn-success"></input>
@@ -156,6 +159,7 @@ if (isset($_POST["export"])) {
       <input class="form-control mr-sm-1" id="search" type="search" placeholder="Buscar" aria-label="Search">
     </form>
   </nav>
+
   <div id="reporteFecha" class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -173,9 +177,8 @@ if (isset($_POST["export"])) {
     </div>
   </div>
 
-  <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
   <div class="table-responsive">
-    <table id="mytable" class="table table-fixed table-bordered table-hover table-sm table-condensed">
+    <table id="mytable" class="table table-fixed table-bordered border-primary table-hover table-sm table-condensed">
       <thead>
         <tr>
           <th class="bg-light" scope="col">ID</th>
@@ -184,14 +187,14 @@ if (isset($_POST["export"])) {
           <th class="bg-light" scope="col">Genset</th>
           <th class="bg-light" scope="col">Tamaño</th>
           <th class="bg-success" scope="col">Fecha Ingreso</th>
-          <th class="bg-success" scope="col">Piloto de Ingreso</th>
-          <th class="bg-success" scope="col">Placa de Piloto de Ingreso</th>
-          <th class="bg-success" scope="col">Empresa de Ingreso</th>
-          <th class="bg-info" scope="col">Fecha de Salida</th>
-          <th class="bg-info" scope="col">Booking de Salida</th>
-          <th class="bg-info" scope="col">Piloto de Salida</th>
-          <th class="bg-info" scope="col">Placa de Piloto de Salida</th>
-          <th class="bg-info" scope="col">Empresa de Salida</th>
+          <th class="bg-success" scope="col">Piloto Ingreso</th>
+          <th class="bg-success" scope="col">Placa Piloto Ingreso</th>
+          <th class="bg-success" scope="col">Empresa Ingreso</th>
+          <th class="bg-info" scope="col">Fecha Salida</th>
+          <th class="bg-info" scope="col">Booking Salida</th>
+          <th class="bg-info" scope="col">Piloto Salida</th>
+          <th class="bg-info" scope="col">Placa Piloto Salida</th>
+          <th class="bg-info" scope="col">Empresa Salida</th>
           <th class="bg-light" scope="col">Dias</th>
         </tr>
       </thead>
@@ -225,22 +228,26 @@ if (isset($_POST["export"])) {
       <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
     </div>
   </nav>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  <script>
-    $(document).ready(function() {
-      $("#search").keyup(function() {
-        _this = this;
-        $.each($("#mytable tbody tr"), function() {
-          if ($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
-            $(this).hide();
-          else
-            $(this).show();
-        });
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function() {
+    $("#search").keyup(function() {
+      _this = this;
+      $.each($("#mytable tbody tr"), function() {
+        if ($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+          $(this).hide();
+        else
+          $(this).show();
       });
     });
-  </script>
-</body>
+  });
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.23/datatables.min.css" />
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.23/datatables.min.js"></script>
+<script src="../JS/table.js"></script>
 
 </html>
