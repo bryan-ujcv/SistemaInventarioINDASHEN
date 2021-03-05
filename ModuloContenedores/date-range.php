@@ -66,8 +66,10 @@ if (isset($_POST["date-repo"])) {
   $active_sheet->setCellValue('O1', 'Dias');
 
   $count = 2;
+  $x2 = 1;
+
   foreach ($result2 as $fila) {
-    $active_sheet->setCellValue('A' . $count, $fila["id"]);
+    $active_sheet->setCellValue('A' . $count, $x2++);
     $active_sheet->setCellValue('B' . $count, $fila["num_contenedor"]);
     $active_sheet->setCellValue('C' . $count, $fila["chasis"]);
     $active_sheet->setCellValue('D' . $count, $fila["genset"]);
@@ -100,7 +102,7 @@ if (isset($_POST["date-repo"])) {
     $active_sheet->getStyle("O$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
     $count = $count + 1;
   }
-  $file_name = 'Historial desde '.$date1.' hasta '.$date2.'.xlsx';
+  $file_name = 'Historial desde ' . $date1 . ' hasta ' . $date2 . '.xlsx';
 
   $Excel_writer->save($file_name);
 
@@ -116,4 +118,3 @@ if (isset($_POST["date-repo"])) {
 
   exit;
 }
-?>

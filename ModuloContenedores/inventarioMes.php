@@ -10,7 +10,7 @@ include '../vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-$connect = new PDO("mysql:host=localhost;dbname=prueba_dashen", "root", "");
+$connect = new PDO("mysql:host=localhost;dbname=indashen", "root", "");
 
 
 $query = "SELECT `id`, `num_contenedor`, `chasis`, `placa_chasis`,DATE_FORMAT( `fecha_ingreso`,'%e/%M/%Y','es_HN') as 'fecha_ingreso', `genset`, `tamano`, `ejes`, `observacion`, DATE_FORMAT(`hora_ingreso`,'%r') as 'hora_ingreso' FROM `contenedores` WHERE `estado`='Activo';";
