@@ -123,7 +123,7 @@ if (isset($_POST["export"])) {
     }
 
     .table-responsive {
-      height: 435px;
+      height: 410px;
       overflow: scroll;
     }
   </style>
@@ -131,6 +131,7 @@ if (isset($_POST["export"])) {
 
 <body>
   <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
+  <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
     <a class="btn btn-danger" href="../menuPrincipal.php">Atras</a>
     <form method="post">
       <input type="submit" value="Exportar Inventario" name="export" class="btn btn-success"></input>
@@ -139,8 +140,7 @@ if (isset($_POST["export"])) {
       <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
     </form>
   </nav>
-  <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
-
+  
   <div class="table-responsive">
     <table id="mytable" class="table table-fixed table-bordered table-hover table-sm table-condensed">
       <thead>

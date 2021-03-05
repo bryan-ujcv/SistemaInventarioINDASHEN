@@ -9,7 +9,7 @@ $connect = new PDO("mysql:host=localhost;dbname=indashen", "root", "");
 $date1 = date("Y-m-d", strtotime($_POST['date1']));
 $date2 = date("Y-m-d", strtotime($_POST['date2']));
 
-$query2 = "SELECT * FROM `contenedores` WHERE `fecha_ingreso` BETWEEN '$date1' AND '$date2'";
+$query2 = "SELECT `id`, `num_contenedor`, `chasis`, `placa_chasis`, DATE_FORMAT(`fecha_ingreso`,'%e/%M/%Y','es_HN') as 'fecha_ingreso', `piloto_ingreso`, `placa_piloto_ingreso`, `empresa_ingreso`, DATE_FORMAT(`fecha_salida`,'%e/%M/%Y','es_HN') as 'fecha_salida', `piloto_salida`, `placa_piloto_salida`, `empresa_salida`, `dias`, `genset`, `booking`, `tamano`, `ejes`, `observacion`, DATE_FORMAT(`hora_ingreso`,'%r','es_HN') as 'hora_ingreso', DATE_FORMAT(`hora_salida`,'%r','es_HN') as 'hora_salida' FROM `contenedores` WHERE `fecha_salida` BETWEEN '$date1' AND '$date2'";
 
 $statement2 = $connect->prepare($query2);
 $statement2->execute();
