@@ -114,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </nav>
     <div class="container">
-        <div class="col-sm-4">
+        <div class="col-md-4">
             <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
             <h2>Registro de Usuario</h2>
             <p>Por favor llene los campos para poder crear un usuario.</p>

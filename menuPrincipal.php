@@ -32,10 +32,10 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pilotos</a>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Parqueo de Pilotos</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="ModuloPilotos/pilotosDisponibles.php">Pilotos Disponibles</a>
-                    <a class="dropdown-item" href="ModuloPilotos/historialCompletoPilotos.php">historial Completo</a>
+                    <a class="dropdown-item" href="ModuloPilotos/historialCompletoPilotos.php">Historial Completo</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="ModuloPilotos/ingresoPilotos.php">Ingreso de Pilotos</a>
                 </div>
@@ -46,10 +46,8 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             <li class="nav-item">
                 <a class="nav-link " href="register.php">Crear Usuario</a>
             </li>
-            <li class="nav-item pull-right">
-                <a class="nav-link btn btn-danger " href="logout.php">Cerrar Sesion</a>
-            </li>
         </ul>
+        <a class="nav-link btn btn-danger " href="logout.php">Cerrar Sesion</a>
     </nav>
     <div class="container">
         <div class="col-sm-7">
