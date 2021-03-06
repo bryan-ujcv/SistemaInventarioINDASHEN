@@ -1,5 +1,11 @@
 <?php
 include '../conexion.php';
+
+date_default_timezone_set('America/Guatemala');
+
+$fecha=date("Y-m-d");
+$hora = date("H:i:s");
+
 $cont=$_POST['num_contenedor'];
 $chas=$_POST['chasis'];
 $gen=$_POST['genset'];
@@ -10,8 +16,9 @@ $empresai=$_POST['empresa_ingreso'];
 $tamano=$_POST['tamano'];
 $ejes=$_POST['ejes'];
 $observacion=$_POST['observacion'];
+$tipo=$_POST['tipo'];
 
-$query="INSERT INTO `contenedores` (`id`, `num_contenedor`, `genset`, `chasis`, `placa_chasis`, `fecha_ingreso`, `piloto_ingreso`, `placa_piloto_ingreso`, `empresa_ingreso`, `estado`,`tamano`,`ejes`,`observacion`,`hora_ingreso`) VALUES (NULL, '$cont','$gen', '$chas' ,'$placha', CURRENT_DATE(), '$pilotoi', '$placai', '$empresai','Activo','$tamano','$ejes','$observacion', CURRENT_TIME());";
+$query="INSERT INTO `contenedores` (`id`, `num_contenedor`, `genset`, `chasis`, `placa_chasis`, `fecha_ingreso`, `piloto_ingreso`, `placa_piloto_ingreso`, `empresa_ingreso`, `estado`,`tamano`,`ejes`,`observacion`,`hora_ingreso`,`tipo_tamano`) VALUES (NULL, '$cont','$gen', '$chas' ,'$placha', '$fecha', '$pilotoi', '$placai', '$empresai','Activo','$tamano','$ejes','$observacion', '$hora','$tipo');";
 
 $ins=mysqli_query($con,$query);
 

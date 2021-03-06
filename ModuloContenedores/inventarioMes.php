@@ -10,10 +10,10 @@ include '../vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-$connect = new PDO("mysql:host=localhost;dbname=indashen", "root", "");
+$connect = new PDO("mysql:host=localhost;dbname=invent", "root", "");
 
 
-$query = "SELECT `id`, `num_contenedor`, `chasis`, `placa_chasis`,DATE_FORMAT( `fecha_ingreso`,'%e/%M/%Y','es_HN') as 'fecha_ingreso', `genset`, `tamano`, `ejes`, `observacion`, DATE_FORMAT(`hora_ingreso`,'%r') as 'hora_ingreso' FROM `contenedores` WHERE `estado`='Activo';";
+$query = "SELECT `id`, `num_contenedor`, `chasis`, `placa_chasis`,DATE_FORMAT( `fecha_ingreso`,'%e/%M/%Y','es_HN') as 'fecha_ingreso', `genset`, `tamano`, `ejes`, `observacion`, DATE_FORMAT(`hora_ingreso`,'%r') as 'hora_ingreso',`tipo_tamano` FROM `contenedores` WHERE `estado`='Activo';";
 
 $statement = $connect->prepare($query);
 
@@ -48,6 +48,7 @@ if (isset($_POST["export"])) {
   $active_sheet->getColumnDimension('H')->setAutoSize(true);
   $active_sheet->getColumnDimension('I')->setAutoSize(true);
   $active_sheet->getColumnDimension('J')->setAutoSize(true);
+  $active_sheet->getColumnDimension('K')->setAutoSize(true);
 
   $active_sheet->setCellValue('A1', 'ID');
   $active_sheet->setCellValue('B1', 'Numero de Contenedor');
@@ -57,8 +58,9 @@ if (isset($_POST["export"])) {
   $active_sheet->setCellValue('F1', 'Fecha de Ingreso');
   $active_sheet->setCellValue('G1', 'Hora de Ingreso');
   $active_sheet->setCellValue('H1', 'Tamaño');
-  $active_sheet->setCellValue('I1', 'Ejes');
-  $active_sheet->setCellValue('J1', 'Observacion');
+  $active_sheet->setCellValue('I1', 'Tipo');
+  $active_sheet->setCellValue('J1', 'Ejes');
+  $active_sheet->setCellValue('K1', 'Observacion');
 
   $count = 2;
   $x2 = 1;
@@ -71,8 +73,9 @@ if (isset($_POST["export"])) {
     $active_sheet->setCellValue('F' . $count, $fila["fecha_ingreso"]);
     $active_sheet->setCellValue('G' . $count, $fila["hora_ingreso"]);
     $active_sheet->setCellValue('H' . $count, $fila["tamano"]);
-    $active_sheet->setCellValue('I' . $count, $fila["ejes"]);
-    $active_sheet->setCellValue('J' . $count, $fila["observacion"]);
+    $active_sheet->setCellValue('I' . $count, $fila["tipo_tamano"]);
+    $active_sheet->setCellValue('J' . $count, $fila["ejes"]);
+    $active_sheet->setCellValue('K' . $count, $fila["observacion"]);
 
     $active_sheet->getStyle("A$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
     $active_sheet->getStyle("B$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
@@ -84,6 +87,7 @@ if (isset($_POST["export"])) {
     $active_sheet->getStyle("H$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
     $active_sheet->getStyle("I$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
     $active_sheet->getStyle("J$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+    $active_sheet->getStyle("K$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
 
     $count = $count + 1;
   }
@@ -153,6 +157,7 @@ if (isset($_POST["export"])) {
           <th class="bg-light" scope="col">Fecha Ingreso</th>
           <th class="bg-light" scope="col">Hora Ingreso</th>
           <th class="bg-light" scope="col">Tamaño</th>
+          <th class="bg-light" scope="col">Tipo</th>
           <th class="bg-light" scope="col">Ejes</th>
           <th class="bg-light" scope="col">Observacion</th>
           <th class="bg-light" scope="col"></th>
@@ -171,6 +176,7 @@ if (isset($_POST["export"])) {
             <td scope="row"><?php echo $fila['fecha_ingreso'] ?></td>
             <td scope="row"><?php echo $fila['hora_ingreso'] ?></td>
             <td scope="row"><?php echo $fila['tamano'] ?></td>
+            <td scope="row"><?php echo $fila['tipo_tamano'] ?></td>
             <td scope="row"><?php echo $fila['ejes'] ?></td>
             <td scope="row"><?php echo $fila['observacion'] ?></td>
             <td scope="row"><a class="btn btn-primary" href="updateObservacion.php?id=<?php echo $fila['id'] ?>">Editar Observacion</td>

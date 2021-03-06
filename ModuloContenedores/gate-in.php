@@ -11,6 +11,9 @@ $result = mysqli_query($con, $query);
 $query2 = "SELECT * FROM `tamaños`";
 $result2 = mysqli_query($con, $query2);
 
+$query3 = "SELECT * FROM `tipo_tamano`";
+$result3 = mysqli_query($con, $query3);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,6 +48,19 @@ $result2 = mysqli_query($con, $query2);
                         while ($row = mysqli_fetch_array($result2)) {
                         ?>
                             <option value="<?php echo $row['nombre'] ?>"><?php echo $row['nombre']; ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select><br>
+                </div>
+                <div class="col-md-3">
+                    <h5>Tipo de Contenedor</h5>
+                    <select type="text" class="form-control" id="sizeTipo" name="tipo" placeholder="Tipo del Contenedor">
+                        <option disabled value="" selected>Seleccionar una Opcion</option>
+                        <?php
+                        while ($row = mysqli_fetch_array($result3)) {
+                        ?>
+                            <option value="<?php echo $row['tipo'] ?>"><?php echo $row['tipo']; ?></option>
                         <?php
                         }
                         ?>
