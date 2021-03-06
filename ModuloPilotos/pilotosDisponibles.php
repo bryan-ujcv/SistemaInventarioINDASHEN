@@ -12,7 +12,7 @@ include '../vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-$connect = new PDO("mysql:host=localhost;dbname=indashen", "root", "");
+$connect = new PDO("mysql:host=localhost;dbname=invent", "root", "");
 
 $query = "SELECT `id`, `nombre_piloto`, `placa_piloto`, `empresa_piloto`, DATE_FORMAT( `fecha_ingreso`,'%e/%M/%Y','es_HN') as 'fecha_ingreso', DATE_FORMAT(`hora_ingreso`,'%r') as 'hora_ingreso' FROM `pilotos` WHERE `estado`='Activo'";
 

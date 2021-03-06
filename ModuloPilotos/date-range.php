@@ -5,7 +5,7 @@ include '../vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-$connect = new PDO("mysql:host=localhost;dbname=indashen", "root", "");
+$connect = new PDO("mysql:host=localhost;dbname=invent", "root", "");
 $date1 = date("Y-m-d", strtotime($_POST['date1']));
 $date2 = date("Y-m-d", strtotime($_POST['date2']));
 

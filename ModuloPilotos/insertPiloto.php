@@ -4,6 +4,7 @@ date_default_timezone_set('America/Guatemala');
 
 $fecha=date("Y-m-d");
 $hora = date("H:i:s");
+
 $piloto=$_POST['piloto_ingreso'];
 $placa=$_POST['placa_piloto_ingreso'];
 $empresa=$_POST['empresa_ingreso'];
