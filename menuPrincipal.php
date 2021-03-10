@@ -15,7 +15,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="shortcut icon" href="CSS/IMG/image001.ico">
-    <title>Menu</title>
+    <title>Menu Principal</title>
 
 <body>
     <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
@@ -34,7 +34,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Parqueo de Pilotos</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="ModuloPilotos/pilotosDisponibles.php">Pilotos Disponibles</a>
+                    <a class="dropdown-item" href="ModuloPilotos/pilotosDisponibles.php">Pilotos en Predio</a>
                     <a class="dropdown-item" href="ModuloPilotos/historialCompletoPilotos.php">Historial Completo</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="ModuloPilotos/ingresoPilotos.php">Ingreso de Pilotos</a>

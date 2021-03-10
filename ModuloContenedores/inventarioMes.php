@@ -179,7 +179,7 @@ if (isset($_POST["export"])) {
             <td scope="row"><?php echo $fila['tipo_tamano'] ?></td>
             <td scope="row"><?php echo $fila['ejes'] ?></td>
             <td scope="row"><?php echo $fila['observacion'] ?></td>
-            <td scope="row"><a class="btn btn-primary" href="updateObservacion.php?id=<?php echo $fila['id'] ?>">Editar Observacion</td>
+            <td scope="row"><a class="btn btn-primary" href="updateObservacion.php?id=<?php echo $fila['id'] ?>">Editar Registro</td>
           </tr>
         <?php } ?>
       </tbody>

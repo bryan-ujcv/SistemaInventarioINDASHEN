@@ -113,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
         </div>
     </nav>
-    <div class="container">
+    <div class="">
         <div class="col-md-4">
             <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
             <h2>Registro de Usuario</h2>

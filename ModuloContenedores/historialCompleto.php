@@ -72,7 +72,7 @@ if (isset($_POST["export"])) {
   $count = 2;
   $x2 = 1;
 
-  foreach ($result2 as $fila) {
+  foreach ($result as $fila) {
     $active_sheet->setCellValue('A' . $count, $x2++);
     $active_sheet->setCellValue('B' . $count, $fila["num_contenedor"]);
     $active_sheet->setCellValue('C' . $count, $fila["chasis"]);

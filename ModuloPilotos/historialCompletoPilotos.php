@@ -132,7 +132,7 @@ if (isset($_POST["export"])) {
         <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
         <a class="btn btn-danger" href="../menuPrincipal.php">Atras</a>
         <form method="post">
-            <input type="submit" value="Exportar Parqueo Completo" name="export" class="btn btn-success"></input>
+            <input type="submit" value="Exportar Historial Completo" name="export" class="btn btn-success"></input>
         </form>
         <a href="#reporteFecha" role="button" class="btn btn-large btn-success" data-toggle="modal">Reporte por Fecha</a>
         <form class="form-inline">
