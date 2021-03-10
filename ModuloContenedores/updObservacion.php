@@ -9,12 +9,10 @@ $up=$con->query("UPDATE contenedores SET observacion='$observacion', fecha_ingre
 
 if($up){
     echo "<script> 
-    alert('Actualizado Correctamente')
     location.href='inventarioMes.php'</script>";
     
 }else{
     echo "<script> 
-    alert('Error al Ingresar Datos Verifique Bien')
     location.href='updateObservacion.php'        
     </script>";
 }

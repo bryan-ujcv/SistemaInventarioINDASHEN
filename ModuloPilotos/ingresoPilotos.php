@@ -31,11 +31,11 @@ $result = mysqli_query($con, $query);
         <form action="insertPiloto.php" method="post">
 
             <div class="form-group col-md-3">
-                <h5>Piloto de Ingreso</h5>
+                <h5>Nombre del Piloto</h5>
                 <input type="text" class="form-control" id="piloto" name="piloto_ingreso" placeholder="Piloto de Ingreso"><br>
             </div>
             <div class="form-group col-md-3">
-                <h5>Placa del Piloto de Ingreso</h5>
+                <h5>Placa del Piloto</h5>
                 <input type="text" class="form-control" id="placapiloto" name="placa_piloto_ingreso" placeholder="Placa del Piloto de Ingreso"><br>
             </div>
             <div class="form-group col-md-3">

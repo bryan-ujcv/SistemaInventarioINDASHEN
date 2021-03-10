@@ -34,11 +34,11 @@ if ($fila = $sel->fetch_assoc()) {
         <input type="hidden" name="id" value="<?php echo $id ?>">
             <div class="row">
                 <div class="form-group col-md-3">
-                    <h5>Piloto de Ingreso</h5>
+                    <h5>Nombre del Piloto</h5>
                     <input type="text" class="form-control" id="piloto" name="piloto_ingreso" disabled value="<?php echo $fila['nombre_piloto'] ?>" placeholder="Piloto de Ingreso"><br>
                 </div>
                 <div class="form-group col-md-3">
-                    <h5>Placa del Piloto de Ingreso</h5>
+                    <h5>Placa del Piloto</h5>
                     <input type="text" class="form-control" id="placapiloto" disabled value="<?php echo $fila['placa_piloto'] ?>" name="placa_piloto_ingreso" placeholder="Placa del Piloto de Ingreso"><br>
                 </div>
                 <div class="form-group col-md-3">
