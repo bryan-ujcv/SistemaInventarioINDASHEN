@@ -1,19 +1,73 @@
 <?php
 include '../conexion.php';
-date_default_timezone_set('America/Guatemala');
+session_start();
 
-$fecha=date("Y-m-d");
-$hora = date("H:i:s");
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("location: index.php");
+    exit;
+}
+
 $id = $_REQUEST['id'];
-
-$query="UPDATE `pilotos` SET `fecha_salida`='$fecha',`hora_salida`='$hora',`dias`=(SELECT DATEDIFF(fecha_salida,fecha_ingreso)+1),`estado`='Inactivo' WHERE `id`='$id'";
-
-$up=mysqli_query($con,$query);
-
-if ($up) {
-    echo "<script> 
-    location.href='historialCompletoPilotos.php'</script>";
-}else{
-    echo "Error al Ingresar Datos ERROR: Could not able to execute $up. " . mysqli_error($con);
+$sel = $con->query("SELECT * FROM pilotos WHERE id = '$id';");
+if ($fila = $sel->fetch_assoc()) {
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../CSS/IMG/image001.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Editar Piloto</title>
+</head>
+
+<body>
+    <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
+        <a class="btn btn-danger" href="pilotosDisponibles.php">Atras</a>
+    </nav>
+    <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
+    <div class="container">
+        <form action="updPiloto.php" method="post">
+        <input type="hidden" name="id" value="<?php echo $id ?>">
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <h5>Piloto de Ingreso</h5>
+                    <input type="text" class="form-control" id="piloto" name="piloto_ingreso" disabled value="<?php echo $fila['nombre_piloto'] ?>" placeholder="Piloto de Ingreso"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Placa del Piloto de Ingreso</h5>
+                    <input type="text" class="form-control" id="placapiloto" disabled value="<?php echo $fila['placa_piloto'] ?>" name="placa_piloto_ingreso" placeholder="Placa del Piloto de Ingreso"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Empresa</h5>
+                    <input type="text" class="form-control" id="empresa" disabled value="<?php echo $fila['empresa_piloto'] ?>" name="empresa_ingreso" placeholder="Empresa"></input><br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h5>Fecha de Ingreso</h5>
+                    <input type="date" id="fecha_ingreso" class="form-control" name="fecha_ingreso"><br>
+                </div>
+                <div class="col-md-3">
+                    <h5>Hora de Ingreso</h5>
+                    <input type="time" id="hora_ingreso" class="form-control" name="hora_ingreso"><br>
+                </div>
+            </div>
+            <button type="submit" id="btn" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+    <nav class="navbar fixed-bottom" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
+        </div>
+    </nav>
+    <script src="../JS/validacionPiloto.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>
