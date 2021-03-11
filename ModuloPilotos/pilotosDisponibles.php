@@ -125,7 +125,7 @@ if (isset($_POST["export"])) {
             <input type="submit" value="Exportar Parqueo" name="export" class="btn btn-success"></input>
         </form>
         <form class="form-inline">
-            <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control mr-sm-2" id="search" type="search" placeholder="Buscar" aria-label="Search">
         </form>
     </nav>
 

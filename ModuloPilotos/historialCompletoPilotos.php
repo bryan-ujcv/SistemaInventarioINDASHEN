@@ -136,7 +136,7 @@ if (isset($_POST["export"])) {
         </form>
         <a href="#reporteFecha" role="button" class="btn btn-large btn-success" data-toggle="modal">Reporte por Fecha</a>
         <form class="form-inline">
-            <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control mr-sm-2" id="search" type="search" placeholder="Buscar" aria-label="Search">
         </form>
     </nav>
 
