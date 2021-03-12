@@ -160,9 +160,6 @@ if (isset($_POST["export"])) {
       <input type="submit" value="Exportar Historial Completo" name="export" class="btn btn-success"></input>
     </form>
     <a href="#reporteFecha" role="button" class="btn btn-large btn-success" data-toggle="modal">Reporte por Fecha</a>
-    <form class="form-inline" action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
-      <input class="form-control mr-sm-1" id="search" type="search" placeholder="Buscar" aria-label="Search">
-    </form>
   </nav>
 
   <div id="reporteFecha" class="modal fade">

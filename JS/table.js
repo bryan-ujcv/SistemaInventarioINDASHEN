@@ -22,8 +22,7 @@ $(document).ready(function () {
         sPrevious: "Anterior",
       },
     },
-    bFilter: false,
+    bFilter: true,
     bLengthChange: true,
-    dom: '<"top"i>rt<"bottom"flp><"clear">',
   });
 });
