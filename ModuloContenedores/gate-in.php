@@ -45,7 +45,7 @@ $result3 = mysqli_query($con, $query3);
                     <select type="text" class="form-control" id="size" name="tamano" placeholder="Tamaño del Contenedor">
                         <option disabled value="" selected>Seleccionar una Opcion</option>
                         <?php
-                        while ($row = mysqli_fetch_array($result2)) {
+                         while ($row = mysqli_fetch_array($result2)) {
                         ?>
                             <option value="<?php echo $row['nombre'] ?>"><?php echo $row['nombre']; ?></option>
                         <?php

@@ -1,19 +1,15 @@
-<?php 
+<?php
 require '../conexion.php';
 include '../vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-$connect = new PDO("mysql:host=localhost;dbname=invent", "root", "");
 $date1 = date("Y-m-d", strtotime($_POST['date1']));
 $date2 = date("Y-m-d", strtotime($_POST['date2']));
 
-$query2 = "SELECT `id`, `nombre_piloto`, `placa_piloto`, `empresa_piloto`, DATE_FORMAT( `fecha_ingreso`,'%e/%M/%Y','es_HN') as 'fecha_ingreso', DATE_FORMAT(`hora_ingreso`,'%r') as 'hora_ingreso', DATE_FORMAT( `fecha_salida`,'%e/%M/%Y','es_HN') as 'fecha_salida', DATE_FORMAT(`hora_salida`,'%r') as 'hora_salida', `dias`, `estado` FROM `pilotos` WHERE `fecha_salida` BETWEEN '$date1' AND '$date2'";
-
-$statement2 = $connect->prepare($query2);
-$statement2->execute();
-$result2 = $statement2->fetchAll();
+$query = "SET lc_time_names = 'es_HN';";
+$query .= "SELECT `id`, `nombre_piloto`, `placa_piloto`, `empresa_piloto`, DATE_FORMAT( `fecha_ingreso`,'%e/%M/%Y') as 'fecha_ingreso', DATE_FORMAT(`hora_ingreso`,'%r') as 'hora_ingreso', DATE_FORMAT( `fecha_salida`,'%e/%M/%Y') as 'fecha_salida', DATE_FORMAT(`hora_salida`,'%r') as 'hora_salida', `dias`, `estado` FROM `pilotos` WHERE `fecha_salida` BETWEEN '$date1' AND '$date2'";
 
 if (isset($_POST["date-repo"])) {
 
@@ -54,31 +50,37 @@ if (isset($_POST["date-repo"])) {
   $active_sheet->setCellValue('I1', 'Dias');
 
   $count = 2;
-  $x=1;
+  $x = 1;
 
-  foreach ($result2 as $fila) {
-    $active_sheet->setCellValue('A' . $count, $x++);
-    $active_sheet->setCellValue('B' . $count, $fila["nombre_piloto"]);
-    $active_sheet->setCellValue('C' . $count, $fila["placa_piloto"]);
-    $active_sheet->setCellValue('D' . $count, $fila["empresa_piloto"]);
-    $active_sheet->setCellValue('E' . $count, $fila["fecha_ingreso"]);
-    $active_sheet->setCellValue('F' . $count, $fila["hora_ingreso"]);
-    $active_sheet->setCellValue('G' . $count, $fila["fecha_salida"]);
-    $active_sheet->setCellValue('H' . $count, $fila["hora_salida"]);
-    $active_sheet->setCellValue('I' . $count, $fila["dias"]);
+  if (mysqli_multi_query($con, $query)) {
+    do {
+      if ($result = mysqli_store_result($con)) {
+        while ($fila = mysqli_fetch_array($result)) {
+          $active_sheet->setCellValue('A' . $count, $x++);
+          $active_sheet->setCellValue('B' . $count, $fila["nombre_piloto"]);
+          $active_sheet->setCellValue('C' . $count, $fila["placa_piloto"]);
+          $active_sheet->setCellValue('D' . $count, $fila["empresa_piloto"]);
+          $active_sheet->setCellValue('E' . $count, $fila["fecha_ingreso"]);
+          $active_sheet->setCellValue('F' . $count, $fila["hora_ingreso"]);
+          $active_sheet->setCellValue('G' . $count, $fila["fecha_salida"]);
+          $active_sheet->setCellValue('H' . $count, $fila["hora_salida"]);
+          $active_sheet->setCellValue('I' . $count, $fila["dias"]);
 
-    $active_sheet->getStyle("A$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("B$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("C$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("D$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("E$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("F$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("G$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("H$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("I$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $count = $count + 1;
+          $active_sheet->getStyle("A$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("B$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("C$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("D$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("E$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("F$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("G$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("H$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("I$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $count = $count + 1;
+        }
+      }
+    } while (mysqli_next_result($con));
   }
-  $file_name = 'Historial Parqueo desde '.$date1.' hasta '.$date2.'.xlsx';
+  $file_name = 'Historial Parqueo desde ' . $date1 . ' hasta ' . $date2 . '.xlsx';
 
   $Excel_writer->save($file_name);
 
@@ -94,4 +96,3 @@ if (isset($_POST["date-repo"])) {
 
   exit;
 }
-?>

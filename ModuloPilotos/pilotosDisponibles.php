@@ -12,13 +12,8 @@ include '../vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-$connect = new PDO("mysql:host=localhost;dbname=invent", "root", "");
-
-$query = "SELECT `id`, `nombre_piloto`, `placa_piloto`, `empresa_piloto`, DATE_FORMAT( `fecha_ingreso`,'%e/%M/%Y','es_HN') as 'fecha_ingreso', DATE_FORMAT(`hora_ingreso`,'%r') as 'hora_ingreso' FROM `pilotos` WHERE `estado`='Activo'";
-
-$statement = $connect->prepare($query);
-$statement->execute();
-$result = $statement->fetchAll();
+$query = "SET lc_time_names = 'es_HN';";
+$query .= "SELECT `id`, `nombre_piloto`, `placa_piloto`, `empresa_piloto`, DATE_FORMAT( `fecha_ingreso`,'%e/%M/%Y') as 'fecha_ingreso', DATE_FORMAT(`hora_ingreso`,'%r') as 'hora_ingreso' FROM `pilotos` WHERE `estado`='Activo'";
 
 if (isset($_POST["export"])) {
 
@@ -26,7 +21,7 @@ if (isset($_POST["export"])) {
     $Excel_writer = new Xlsx($file);
 
     $active_sheet = $file->getActiveSheet();
-    $active_sheet->setTitle("Inventario Parqueo");
+    $active_sheet->setTitle("Pilotos en Predio");
 
     $styleArray = [
         'borders' => [
@@ -55,25 +50,31 @@ if (isset($_POST["export"])) {
     $count = 2;
     $x = 1;
 
-    foreach ($result as $fila) {
-        $active_sheet->setCellValue('A' . $count, $x++);
-        $active_sheet->setCellValue('B' . $count, $fila["nombre_piloto"]);
-        $active_sheet->setCellValue('C' . $count, $fila["placa_piloto"]);
-        $active_sheet->setCellValue('D' . $count, $fila["empresa_piloto"]);
-        $active_sheet->setCellValue('E' . $count, $fila["fecha_ingreso"]);
-        $active_sheet->setCellValue('F' . $count, $fila["hora_ingreso"]);
+    if (mysqli_multi_query($con, $query)) {
+        do {
+            if ($result = mysqli_store_result($con)) {
+                while ($fila = mysqli_fetch_array($result)) {
+                    $active_sheet->setCellValue('A' . $count, $x++);
+                    $active_sheet->setCellValue('B' . $count, $fila["nombre_piloto"]);
+                    $active_sheet->setCellValue('C' . $count, $fila["placa_piloto"]);
+                    $active_sheet->setCellValue('D' . $count, $fila["empresa_piloto"]);
+                    $active_sheet->setCellValue('E' . $count, $fila["fecha_ingreso"]);
+                    $active_sheet->setCellValue('F' . $count, $fila["hora_ingreso"]);
 
-        $active_sheet->getStyle("A$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-        $active_sheet->getStyle("B$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-        $active_sheet->getStyle("C$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-        $active_sheet->getStyle("D$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-        $active_sheet->getStyle("E$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-        $active_sheet->getStyle("F$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+                    $active_sheet->getStyle("A$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+                    $active_sheet->getStyle("B$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+                    $active_sheet->getStyle("C$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+                    $active_sheet->getStyle("D$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+                    $active_sheet->getStyle("E$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+                    $active_sheet->getStyle("F$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
 
-        $count = $count + 1;
+                    $count = $count + 1;
+                }
+            }
+        } while (mysqli_next_result($con));
     }
 
-    $file_name = 'Pilotos en Parqueo.xlsx';
+    $file_name = 'Pilotos en Predio.xlsx';
 
     $Excel_writer->save($file_name);
 
@@ -144,18 +145,24 @@ if (isset($_POST["export"])) {
             </thead>
             <tbody><?php
                     $x = 1;
-                    foreach ($result as $fila) {
+                    if (mysqli_multi_query($con, $query)) {
+                        do {
+                            if ($result = mysqli_store_result($con)) {
+                                while ($fila = mysqli_fetch_array($result)) {
                     ?>
-                    <tr>
-                        <th scope="row"><?php echo $x++ ?></th>
-                        <td scope="row"><?php echo $fila['nombre_piloto'] ?></td>
-                        <td scope="row"><?php echo $fila['placa_piloto'] ?></td>
-                        <td scope="row"><?php echo $fila['empresa_piloto'] ?></td>
-                        <td scope="row"><?php echo $fila['fecha_ingreso'] ?></td>
-                        <td scope="row"><?php echo $fila['hora_ingreso'] ?></td>
-                        <td align="center" scope="row"><a class="btn btn-primary" href="updatePilotos.php?id=<?php echo $fila['id'] ?>">Editar Registro</a><a class="btn btn-danger" href="salidaPiloto.php?id=<?php echo $fila['id'] ?>">Salida de Piloto</a></td>
-                    </tr>
-                <?php } ?>
+                                <tr>
+                                    <th scope="row"><?php echo $x++ ?></th>
+                                    <td scope="row"><?php echo $fila['nombre_piloto'] ?></td>
+                                    <td scope="row"><?php echo $fila['placa_piloto'] ?></td>
+                                    <td scope="row"><?php echo $fila['empresa_piloto'] ?></td>
+                                    <td scope="row"><?php echo $fila['fecha_ingreso'] ?></td>
+                                    <td scope="row"><?php echo $fila['hora_ingreso'] ?></td>
+                                    <td align="center" scope="row"><a class="btn btn-primary" href="updatePilotos.php?id=<?php echo $fila['id'] ?>">Editar Registro</a><a class="btn btn-danger" href="salidaPiloto.php?id=<?php echo $fila['id'] ?>">Salida de Piloto</a></td>
+                                </tr>
+                <?php }
+                            }
+                        } while (mysqli_next_result($con));
+                    } ?>
             </tbody>
         </table>
     </div>

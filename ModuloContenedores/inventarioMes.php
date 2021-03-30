@@ -10,16 +10,8 @@ include '../vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-$connect = new PDO("mysql:host=localhost;dbname=invent", "root", "");
-
-
-$query = "SELECT `id`, `num_contenedor`, `chasis`, `placa_chasis`,DATE_FORMAT( `fecha_ingreso`,'%e/%M/%Y','es_HN') as 'fecha_ingreso', `genset`, `tamano`, `ejes`, `observacion`, DATE_FORMAT(`hora_ingreso`,'%r') as 'hora_ingreso',`tipo_tamano` FROM `contenedores` WHERE `estado`='Activo';";
-
-$statement = $connect->prepare($query);
-
-$statement->execute();
-
-$result = $statement->fetchAll();
+$query = "SET lc_time_names = 'es_HN';";
+$query .= "SELECT `id`, `num_contenedor`, `chasis`, `placa_chasis`,DATE_FORMAT( `fecha_ingreso`,'%e/%M/%Y') as 'fecha_ingreso', `genset`, `tamano`, `ejes`, `observacion`, DATE_FORMAT(`hora_ingreso`,'%r') as 'hora_ingreso',`tipo_tamano` FROM `contenedores` WHERE `estado`='Activo';";
 
 if (isset($_POST["export"])) {
 
@@ -47,8 +39,6 @@ if (isset($_POST["export"])) {
   $active_sheet->getColumnDimension('G')->setAutoSize(true);
   $active_sheet->getColumnDimension('H')->setAutoSize(true);
   $active_sheet->getColumnDimension('I')->setAutoSize(true);
-  $active_sheet->getColumnDimension('J')->setAutoSize(true);
-  $active_sheet->getColumnDimension('K')->setAutoSize(true);
 
   $active_sheet->setCellValue('A1', 'ID');
   $active_sheet->setCellValue('B1', 'Numero de Contenedor');
@@ -56,40 +46,40 @@ if (isset($_POST["export"])) {
   $active_sheet->setCellValue('D1', 'Genset');
   $active_sheet->setCellValue('E1', 'Placa Chasis');
   $active_sheet->setCellValue('F1', 'Fecha de Ingreso');
-  $active_sheet->setCellValue('G1', 'Hora de Ingreso');
-  $active_sheet->setCellValue('H1', 'Tamaño');
-  $active_sheet->setCellValue('I1', 'Tipo');
-  $active_sheet->setCellValue('J1', 'Ejes');
-  $active_sheet->setCellValue('K1', 'Observacion');
+  $active_sheet->setCellValue('G1', 'Tamaño');
+  $active_sheet->setCellValue('H1', 'Ejes');
+  $active_sheet->setCellValue('I1', 'Observacion');
 
   $count = 2;
   $x2 = 1;
-  foreach ($result as $fila) {
-    $active_sheet->setCellValue('A' . $count, $x2++);
-    $active_sheet->setCellValue('B' . $count, $fila["num_contenedor"]);
-    $active_sheet->setCellValue('C' . $count, $fila["chasis"]);
-    $active_sheet->setCellValue('D' . $count, $fila["genset"]);
-    $active_sheet->setCellValue('E' . $count, $fila["placa_chasis"]);
-    $active_sheet->setCellValue('F' . $count, $fila["fecha_ingreso"]);
-    $active_sheet->setCellValue('G' . $count, $fila["hora_ingreso"]);
-    $active_sheet->setCellValue('H' . $count, $fila["tamano"]);
-    $active_sheet->setCellValue('I' . $count, $fila["tipo_tamano"]);
-    $active_sheet->setCellValue('J' . $count, $fila["ejes"]);
-    $active_sheet->setCellValue('K' . $count, $fila["observacion"]);
+  if (mysqli_multi_query($con, $query)) {
+    do {
+      if ($result = mysqli_store_result($con)) {
+        while ($fila = mysqli_fetch_array($result)) {
+          $active_sheet->setCellValue('A' . $count, $x2++);
+          $active_sheet->setCellValue('B' . $count, $fila["num_contenedor"]);
+          $active_sheet->setCellValue('C' . $count, $fila["chasis"]);
+          $active_sheet->setCellValue('D' . $count, $fila["genset"]);
+          $active_sheet->setCellValue('E' . $count, $fila["placa_chasis"]);
+          $active_sheet->setCellValue('F' . $count, $fila["fecha_ingreso"]);
+          $active_sheet->setCellValue('G' . $count, $fila["tamano"] . $fila["tipo_tamano"]);
+          $active_sheet->setCellValue('H' . $count, $fila["ejes"]);
+          $active_sheet->setCellValue('I' . $count, $fila["observacion"]);
 
-    $active_sheet->getStyle("A$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("B$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("C$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("D$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("E$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("F$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("G$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("H$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("I$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("J$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("K$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("A$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("B$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("C$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("D$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("E$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("F$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("G$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("H$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("I$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
 
-    $count = $count + 1;
+          $count = $count + 1;
+        }
+      }
+    } while (mysqli_next_result($con));
   }
 
   $file_name = 'Inventario.xlsx';
@@ -135,7 +125,7 @@ if (isset($_POST["export"])) {
 
 <body>
   <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
-  <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
+    <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
     <a class="btn btn-danger" href="../menuPrincipal.php">Atras</a>
     <form method="post">
       <input type="submit" value="Exportar Inventario" name="export" class="btn btn-success"></input>
@@ -144,7 +134,7 @@ if (isset($_POST["export"])) {
       <input class="form-control mr-sm-2" id="search" type="search" placeholder="Buscar" aria-label="Search">
     </form>
   </nav>
-  
+
   <div class="table-responsive">
     <table id="mytable" class="table table-fixed table-bordered table-hover table-sm table-condensed">
       <thead>
@@ -165,23 +155,29 @@ if (isset($_POST["export"])) {
       </thead>
       <tbody><?php
               $x = 1;
-              foreach ($result as $fila) {
+              if (mysqli_multi_query($con, $query)) {
+                do {
+                  if ($result = mysqli_store_result($con)) {
+                    while ($fila = mysqli_fetch_array($result)) {
               ?>
-          <tr>
-            <th scope="row"><?php echo $x++ ?></th>
-            <td scope="row"><a href="gate-out.php?id=<?php echo $fila['id'] ?>"><?php echo $fila['num_contenedor'] ?></a></td>
-            <td scope="row"><?php echo $fila['chasis'] ?></td>
-            <td scope="row"><?php echo $fila['genset'] ?></td>
-            <td scope="row"><?php echo $fila['placa_chasis'] ?></td>
-            <td scope="row"><?php echo $fila['fecha_ingreso'] ?></td>
-            <td scope="row"><?php echo $fila['hora_ingreso'] ?></td>
-            <td scope="row"><?php echo $fila['tamano'] ?></td>
-            <td scope="row"><?php echo $fila['tipo_tamano'] ?></td>
-            <td scope="row"><?php echo $fila['ejes'] ?></td>
-            <td scope="row"><?php echo $fila['observacion'] ?></td>
-            <td scope="row"><a class="btn btn-primary" href="updateObservacion.php?id=<?php echo $fila['id'] ?>">Editar Registro</td>
-          </tr>
-        <?php } ?>
+                <tr>
+                  <th scope="row"><?php echo $x++ ?></th>
+                  <td scope="row"><a href="gate-out.php?id=<?php echo $fila['id'] ?>"><?php echo $fila['num_contenedor'] ?></a></td>
+                  <td scope="row"><?php echo $fila['chasis'] ?></td>
+                  <td scope="row"><?php echo $fila['genset'] ?></td>
+                  <td scope="row"><?php echo $fila['placa_chasis'] ?></td>
+                  <td scope="row"><?php echo $fila['fecha_ingreso'] ?></td>
+                  <td scope="row"><?php echo $fila['hora_ingreso'] ?></td>
+                  <td scope="row"><?php echo $fila['tamano'] ?></td>
+                  <td scope="row"><?php echo $fila['tipo_tamano'] ?></td>
+                  <td scope="row"><?php echo $fila['ejes'] ?></td>
+                  <td scope="row"><?php echo $fila['observacion'] ?></td>
+                  <td scope="row"><a class="btn btn-primary" href="updateObservacion.php?id=<?php echo $fila['id'] ?>">Editar Registro</td>
+                </tr>
+        <?php }
+                  }
+                } while (mysqli_next_result($con));
+              } ?>
       </tbody>
     </table>
   </div>

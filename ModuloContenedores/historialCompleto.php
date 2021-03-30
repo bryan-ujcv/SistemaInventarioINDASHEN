@@ -9,13 +9,8 @@ include '../vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-$connect = new PDO("mysql:host=localhost;dbname=invent", "root", "");
-
-$query = "SELECT `id`, `num_contenedor`, `chasis`, `placa_chasis`, DATE_FORMAT(`fecha_ingreso`,'%e/%M/%Y','es_HN') as 'fecha_ingreso', `piloto_ingreso`, `placa_piloto_ingreso`, `empresa_ingreso`, DATE_FORMAT(`fecha_salida`,'%e/%M/%Y','es_HN') as 'fecha_salida', `piloto_salida`, `placa_piloto_salida`, `empresa_salida`, `dias`, `genset`, `booking`, `tamano`, `ejes`, `observacion`, DATE_FORMAT(`hora_ingreso`,'%r','es_HN') as 'hora_ingreso', DATE_FORMAT(`hora_salida`,'%r','es_HN') as 'hora_salida',`tipo_tamano` FROM `contenedores`";
-
-$statement = $connect->prepare($query);
-$statement->execute();
-$result = $statement->fetchAll();
+$query = "SET lc_time_names = 'es_HN';";
+$query .= "SELECT `id`, `num_contenedor`, `chasis`, `placa_chasis`, DATE_FORMAT(`fecha_ingreso`,'%e/%M/%Y') as 'fecha_ingreso', `piloto_ingreso`, `placa_piloto_ingreso`, `empresa_ingreso`, DATE_FORMAT(`fecha_salida`,'%e/%M/%Y') as 'fecha_salida', `piloto_salida`, `placa_piloto_salida`, `empresa_salida`, `dias`, `genset`, `booking`, `tamano`, `ejes`, `observacion`, DATE_FORMAT(`hora_ingreso`,'%r') as 'hora_ingreso', DATE_FORMAT(`hora_salida`,'%r') as 'hora_salida',`tipo_tamano` FROM `contenedores`;";
 
 if (isset($_POST["export"])) {
 
@@ -71,42 +66,47 @@ if (isset($_POST["export"])) {
 
   $count = 2;
   $x2 = 1;
+  if (mysqli_multi_query($con, $query)) {
+    do {
+      if ($result = mysqli_store_result($con)) {
+        while ($fila = mysqli_fetch_array($result)) {
+          $active_sheet->setCellValue('A' . $count, $x2++);
+          $active_sheet->setCellValue('B' . $count, $fila["num_contenedor"]);
+          $active_sheet->setCellValue('C' . $count, $fila["chasis"]);
+          $active_sheet->setCellValue('D' . $count, $fila["genset"]);
+          $active_sheet->setCellValue('E' . $count, $fila["tamano"]);
+          $active_sheet->setCellValue('F' . $count, $fila["tipo_tamano"]);
+          $active_sheet->setCellValue('G' . $count, $fila["fecha_ingreso"]);
+          $active_sheet->setCellValue('H' . $count, $fila["piloto_ingreso"]);
+          $active_sheet->setCellValue('I' . $count, $fila["placa_piloto_ingreso"]);
+          $active_sheet->setCellValue('J' . $count, $fila["empresa_ingreso"]);
+          $active_sheet->setCellValue('K' . $count, $fila["fecha_salida"]);
+          $active_sheet->setCellValue('L' . $count, $fila["booking"]);
+          $active_sheet->setCellValue('M' . $count, $fila["piloto_salida"]);
+          $active_sheet->setCellValue('N' . $count, $fila["placa_piloto_salida"]);
+          $active_sheet->setCellValue('O' . $count, $fila["empresa_salida"]);
+          $active_sheet->setCellValue('P' . $count, $fila["dias"]);
 
-  foreach ($result as $fila) {
-    $active_sheet->setCellValue('A' . $count, $x2++);
-    $active_sheet->setCellValue('B' . $count, $fila["num_contenedor"]);
-    $active_sheet->setCellValue('C' . $count, $fila["chasis"]);
-    $active_sheet->setCellValue('D' . $count, $fila["genset"]);
-    $active_sheet->setCellValue('E' . $count, $fila["tamano"]);
-    $active_sheet->setCellValue('F' . $count, $fila["tipo_tamano"]);
-    $active_sheet->setCellValue('G' . $count, $fila["fecha_ingreso"]);
-    $active_sheet->setCellValue('H' . $count, $fila["piloto_ingreso"]);
-    $active_sheet->setCellValue('I' . $count, $fila["placa_piloto_ingreso"]);
-    $active_sheet->setCellValue('J' . $count, $fila["empresa_ingreso"]);
-    $active_sheet->setCellValue('K' . $count, $fila["fecha_salida"]);
-    $active_sheet->setCellValue('L' . $count, $fila["booking"]);
-    $active_sheet->setCellValue('M' . $count, $fila["piloto_salida"]);
-    $active_sheet->setCellValue('N' . $count, $fila["placa_piloto_salida"]);
-    $active_sheet->setCellValue('O' . $count, $fila["empresa_salida"]);
-    $active_sheet->setCellValue('P' . $count, $fila["dias"]);
-
-    $active_sheet->getStyle("A$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("B$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("C$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("D$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("E$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("F$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("G$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("H$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("I$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("J$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("K$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("L$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("M$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("N$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("O$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $active_sheet->getStyle("P$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
-    $count = $count + 1;
+          $active_sheet->getStyle("A$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("B$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("C$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("D$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("E$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("F$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("G$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("H$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("I$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("J$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("K$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("L$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("M$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("N$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("O$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("P$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $count = $count + 1;
+        }
+      }
+    } while (mysqli_next_result($con));
   }
 
   $file_name = 'Historial Completo.xlsx';
@@ -134,7 +134,7 @@ if (isset($_POST["export"])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="../CSS/IMG/image001.ico">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  
+
   <style type="text/css">
     thead tr th {
       position: sticky;
@@ -148,7 +148,7 @@ if (isset($_POST["export"])) {
       overflow: scroll;
     }
   </style>
-  
+
   <title>Historial Completo</title>
 </head>
 
@@ -203,27 +203,35 @@ if (isset($_POST["export"])) {
       </thead>
       <tbody>
         <?php
-        foreach ($result as $fila) {
+        if (mysqli_multi_query($con, $query)) {
+          do {
+            if ($result = mysqli_store_result($con)) {
+              while ($fila = mysqli_fetch_array($result)) {
         ?>
-          <tr>
-            <td scope="row"><?php echo $fila['id'] ?></td>
-            <td scope="row"><?php echo $fila['num_contenedor'] ?></td>
-            <td scope="row"><?php echo $fila['chasis'] ?></td>
-            <td scope="row"><?php echo $fila['genset'] ?></td>
-            <td scope="row"><?php echo $fila['tamano'] ?></td>
-            <td scope="row"><?php echo $fila['tipo_tamano'] ?></td>
-            <td scope="row"><?php echo $fila['fecha_ingreso'] ?></td>
-            <td scope="row"><?php echo $fila['piloto_ingreso'] ?></td>
-            <td scope="row"><?php echo $fila['placa_piloto_ingreso'] ?></td>
-            <td scope="row"><?php echo $fila['empresa_ingreso'] ?></td>
-            <td scope="row"><?php echo $fila['fecha_salida'] ?></td>
-            <td scope="row"><?php echo $fila['booking'] ?></td>
-            <td scope="row"><?php echo $fila['piloto_salida'] ?></td>
-            <td scope="row"><?php echo $fila['placa_piloto_salida'] ?></td>
-            <td scope="row"><?php echo $fila['empresa_salida'] ?></td>
-            <td scope="row"><?php echo $fila['dias'] ?></td>
-          </tr>
-        <?php } ?>
+                <tr>
+                  <td scope="row"><?php echo $fila['id'] ?></td>
+                  <td scope="row"><?php echo $fila['num_contenedor'] ?></td>
+                  <td scope="row"><?php echo $fila['chasis'] ?></td>
+                  <td scope="row"><?php echo $fila['genset'] ?></td>
+                  <td scope="row"><?php echo $fila['tamano'] ?></td>
+                  <td scope="row"><?php echo $fila['tipo_tamano'] ?></td>
+                  <td scope="row"><?php echo $fila['fecha_ingreso'] ?></td>
+                  <td scope="row"><?php echo $fila['piloto_ingreso'] ?></td>
+                  <td scope="row"><?php echo $fila['placa_piloto_ingreso'] ?></td>
+                  <td scope="row"><?php echo $fila['empresa_ingreso'] ?></td>
+                  <td scope="row"><?php echo $fila['fecha_salida'] ?></td>
+                  <td scope="row"><?php echo $fila['booking'] ?></td>
+                  <td scope="row"><?php echo $fila['piloto_salida'] ?></td>
+                  <td scope="row"><?php echo $fila['placa_piloto_salida'] ?></td>
+                  <td scope="row"><?php echo $fila['empresa_salida'] ?></td>
+                  <td scope="row"><?php echo $fila['dias'] ?></td>
+                </tr>
+        <?php
+              }
+            }
+          } while (mysqli_next_result($con));
+        }
+        ?>
       </tbody>
     </table>
   </div>
