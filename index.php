@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($username_err) && empty($password_err)) {
 
-        $sql = "SELECT id, usuario, contrasena FROM usuarios WHERE usuario = ?";
+        $sql = "SELECT id, usuario, contrasena FROM usuarios WHERE usuario = ? AND estado='Activo'";
 
         if ($stmt = mysqli_prepare($con, $sql)) {
 
@@ -47,7 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;
-
                             header("location: menuPrincipal.php");
                         } else {
                             $password_err = "La Contraseña no es valida.";
