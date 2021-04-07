@@ -28,6 +28,7 @@ if (isset($_POST["export"])) {
       ],
     ],
   ];
+  
   $active_sheet->getColumnDimension('A')->setAutoSize(true);
   $active_sheet->getColumnDimension('B')->setAutoSize(true);
   $active_sheet->getColumnDimension('C')->setAutoSize(true);
@@ -44,25 +45,27 @@ if (isset($_POST["export"])) {
   $active_sheet->getColumnDimension('N')->setAutoSize(true);
   $active_sheet->getColumnDimension('O')->setAutoSize(true);
   $active_sheet->getColumnDimension('P')->setAutoSize(true);
+  $active_sheet->getColumnDimension('Q')->setAutoSize(true);
 
-  $active_sheet->getStyle('A1:P1')->applyFromArray($styleArray)->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+  $active_sheet->getStyle('A1:Q1')->applyFromArray($styleArray)->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
   $active_sheet->setCellValue('A1', 'ID');
   $active_sheet->setCellValue('B1', 'Numero de Contenedor');
   $active_sheet->setCellValue('C1', 'Chasis');
-  $active_sheet->setCellValue('D1', 'Genset');
-  $active_sheet->setCellValue('E1', 'Tamaño');
-  $active_sheet->setCellValue('F1', 'Tipo Tamaño');
-  $active_sheet->setCellValue('G1', 'Fecha de Ingreso');
-  $active_sheet->setCellValue('H1', 'Piloto de Ingreso');
-  $active_sheet->setCellValue('I1', 'Placa de Piloto de Ingreso');
-  $active_sheet->setCellValue('J1', 'Empresa de Ingreso');
-  $active_sheet->setCellValue('K1', 'Fecha de Salida');
-  $active_sheet->setCellValue('L1', 'Booking de Salida');
-  $active_sheet->setCellValue('M1', 'Piloto de Salida');
-  $active_sheet->setCellValue('N1', 'Placa de Piloto de Salida');
-  $active_sheet->setCellValue('O1', 'Empresa de Salida');
-  $active_sheet->setCellValue('P1', 'Dias');
+  $active_sheet->setCellValue('D1', 'Placa Chasis');
+  $active_sheet->setCellValue('E1', 'Genset');
+  $active_sheet->setCellValue('F1', 'Tamaño');
+  $active_sheet->setCellValue('G1', 'Tipo Tamaño');
+  $active_sheet->setCellValue('H1', 'Fecha de Ingreso');
+  $active_sheet->setCellValue('I1', 'Piloto de Ingreso');
+  $active_sheet->setCellValue('J1', 'Placa de Piloto de Ingreso');
+  $active_sheet->setCellValue('K1', 'Empresa de Ingreso');
+  $active_sheet->setCellValue('L1', 'Fecha de Salida');
+  $active_sheet->setCellValue('M1', 'Booking de Salida');
+  $active_sheet->setCellValue('N1', 'Piloto de Salida');
+  $active_sheet->setCellValue('O1', 'Placa de Piloto de Salida');
+  $active_sheet->setCellValue('P1', 'Empresa de Salida');
+  $active_sheet->setCellValue('Q1', 'Dias');
 
   $count = 2;
   $x2 = 1;
@@ -73,19 +76,20 @@ if (isset($_POST["export"])) {
           $active_sheet->setCellValue('A' . $count, $x2++);
           $active_sheet->setCellValue('B' . $count, $fila["num_contenedor"]);
           $active_sheet->setCellValue('C' . $count, $fila["chasis"]);
-          $active_sheet->setCellValue('D' . $count, $fila["genset"]);
-          $active_sheet->setCellValue('E' . $count, $fila["tamano"]);
-          $active_sheet->setCellValue('F' . $count, $fila["tipo_tamano"]);
-          $active_sheet->setCellValue('G' . $count, $fila["fecha_ingreso"]);
-          $active_sheet->setCellValue('H' . $count, $fila["piloto_ingreso"]);
-          $active_sheet->setCellValue('I' . $count, $fila["placa_piloto_ingreso"]);
-          $active_sheet->setCellValue('J' . $count, $fila["empresa_ingreso"]);
-          $active_sheet->setCellValue('K' . $count, $fila["fecha_salida"]);
-          $active_sheet->setCellValue('L' . $count, $fila["booking"]);
-          $active_sheet->setCellValue('M' . $count, $fila["piloto_salida"]);
-          $active_sheet->setCellValue('N' . $count, $fila["placa_piloto_salida"]);
-          $active_sheet->setCellValue('O' . $count, $fila["empresa_salida"]);
-          $active_sheet->setCellValue('P' . $count, $fila["dias"]);
+          $active_sheet->setCellValue('D' . $count, $fila["placa_chasis"]);
+          $active_sheet->setCellValue('E' . $count, $fila["genset"]);
+          $active_sheet->setCellValue('F' . $count, $fila["tamano"]);
+          $active_sheet->setCellValue('G' . $count, $fila["tipo_tamano"]);
+          $active_sheet->setCellValue('H' . $count, $fila["fecha_ingreso"]);
+          $active_sheet->setCellValue('I' . $count, $fila["piloto_ingreso"]);
+          $active_sheet->setCellValue('J' . $count, $fila["placa_piloto_ingreso"]);
+          $active_sheet->setCellValue('K' . $count, $fila["empresa_ingreso"]);
+          $active_sheet->setCellValue('L' . $count, $fila["fecha_salida"]);
+          $active_sheet->setCellValue('M' . $count, $fila["booking"]);
+          $active_sheet->setCellValue('N' . $count, $fila["piloto_salida"]);
+          $active_sheet->setCellValue('O' . $count, $fila["placa_piloto_salida"]);
+          $active_sheet->setCellValue('P' . $count, $fila["empresa_salida"]);
+          $active_sheet->setCellValue('Q' . $count, $fila["dias"]);
 
           $active_sheet->getStyle("A$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
           $active_sheet->getStyle("B$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
@@ -103,6 +107,7 @@ if (isset($_POST["export"])) {
           $active_sheet->getStyle("N$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
           $active_sheet->getStyle("O$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
           $active_sheet->getStyle("P$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("Q$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
           $count = $count + 1;
         }
       }
@@ -160,7 +165,7 @@ if (isset($_POST["export"])) {
       <input type="submit" value="Exportar Historial Completo" name="export" class="btn btn-success"></input>
     </form>
     <a href="#reporteFecha" role="button" class="btn btn-large btn-success" data-toggle="modal">Reporte por Fecha</a>
-  </nav>
+  </nav><br>
 
   <div id="reporteFecha" class="modal fade">
     <div class="modal-dialog">
@@ -186,6 +191,7 @@ if (isset($_POST["export"])) {
           <th class="bg-light" scope="col">ID</th>
           <th class="bg-light" scope="col">Numero de Contenedor</th>
           <th class="bg-light" scope="col">Chasis</th>
+          <th class="bg-light" scope="col">Placa Chasis</th>
           <th class="bg-light" scope="col">Genset</th>
           <th class="bg-light" scope="col">Tamaño</th>
           <th class="bg-light" scope="col">Tipo</th>
@@ -212,6 +218,7 @@ if (isset($_POST["export"])) {
                   <td scope="row"><?php echo $fila['id'] ?></td>
                   <td scope="row"><?php echo $fila['num_contenedor'] ?></td>
                   <td scope="row"><?php echo $fila['chasis'] ?></td>
+                  <td scope="row"><?php echo $fila['placa_chasis'] ?></td>
                   <td scope="row"><?php echo $fila['genset'] ?></td>
                   <td scope="row"><?php echo $fila['tamano'] ?></td>
                   <td scope="row"><?php echo $fila['tipo_tamano'] ?></td>
