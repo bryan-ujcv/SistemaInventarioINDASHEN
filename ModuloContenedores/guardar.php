@@ -24,7 +24,7 @@ $ins=mysqli_query($con,$query);
 
 if($ins){
     echo "<script> 
-    location.href='inventarioMes.php'        
+    location.href='../ModuloCondiciones/condicionEntrada.php'        
     </script>";
 }else{
     echo "Error al Ingresar Datos ERROR: Could not able to execute $ins. " . mysqli_error($con);

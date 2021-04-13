@@ -40,6 +40,16 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                     <a class="dropdown-item" href="ModuloPilotos/ingresoPilotos.php">Ingreso de Pilotos</a>
                 </div>
             </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Condiciones
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="ModuloCondiciones/condiciones.php">Historial Condiciones</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Gate - In</a>
+                </div>
+            </li>
             <!-- <li class="nav-item">
                 <a class="nav-link " href="changePass.php">Cambiar Contraseña</a>
             </li> -->
