@@ -1,7 +1,11 @@
 <?php
 include '../conexion.php';
-
-$entrada = "SELECT cond.id as ide, con.num_contenedor as container, con.chasis as chasis, con.placa_chasis as placa, `tipo_condicion` from condiciones as cond join contenedores as con where contenedor_id = con.id ";
+session_start();
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("location: ../index.php");
+    exit;
+}
+$entrada = "SELECT cond.id as ide, con.num_contenedor as container, con.chasis as chasis, con.placa_chasis as placa, `tipo_condicion`, con.id as conid from condiciones as cond join contenedores as con where contenedor_id = con.id ";
 $input = mysqli_query($con, $entrada);
 
 $salida = "SELECT cond.id as ide, con.num_contenedor as container, con.chasis as chasis, con.placa_chasis as placa, `tipo_condicion` from condiciones as cond join contenedores as con where contenedor_id = con.id and tipo_condicion='Salida'";
@@ -59,18 +63,27 @@ $output = mysqli_query($con, $salida);
             <tbody>
                 <?php
                 while ($fila = mysqli_fetch_array($input)) {
+                    if ($fila['tipo_condicion'] == 'Entrada') {
                 ?>
-                    <tr>
-                        <td scope="row"><?php echo $fila['ide'] ?></td>
-                        <td scope="row"><?php echo $fila['container'] ?></td>
-                        <td scope="row"><?php echo $fila['chasis'] ?></td>
-                        <td scope="row"><?php echo $fila['placa'] ?></td>
-                        <td scope="row"><?php echo $fila['tipo_condicion'] ?></td>
-                        <td scope="row"><a class="btn btn-primary" href="#">Imprimir</td>
-                    </tr>
-                <?php
-                }
-                ?>
+                        <tr>
+                            <td scope="row"><?php echo $fila['ide'] ?></td>
+                            <td scope="row"><?php echo $fila['container'] ?></td>
+                            <td scope="row"><?php echo $fila['chasis'] ?></td>
+                            <td scope="row"><?php echo $fila['placa'] ?></td>
+                            <td scope="row"><?php echo $fila['tipo_condicion'] ?></td>
+                            <td scope="row"><a class="btn btn-primary" href="PDFentrada.php?conid=<?php echo $fila['conid']; ?>">Imprimir</td>
+                        </tr>
+                    <?php } else { ?>
+                        <tr>
+                            <td scope="row"><?php echo $fila['ide'] ?></td>
+                            <td scope="row"><?php echo $fila['container'] ?></td>
+                            <td scope="row"><?php echo $fila['chasis'] ?></td>
+                            <td scope="row"><?php echo $fila['placa'] ?></td>
+                            <td scope="row"><?php echo $fila['tipo_condicion'] ?></td>
+                            <td scope="row"><a class="btn btn-primary" href="PDFsalida.php?conid=<?php echo $fila['conid']; ?>">Imprimir</td>
+                        </tr>
+                    <?php } ?>
+                <?php } ?>
             </tbody>
         </table>
     </div>

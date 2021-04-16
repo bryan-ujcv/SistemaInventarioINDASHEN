@@ -12,13 +12,26 @@ $llanta5=$_POST['llanta5'];
 $llanta6=$_POST['llanta6'];
 $llanta7=$_POST['llanta7'];
 $llanta8=$_POST['llanta8'];
-$llanta9=$_POST['llanta9'];
-$llanta10=$_POST['llanta10'];
-$llanta11=$_POST['llanta11'];
-$llanta12=$_POST['llanta12'];
 
-$ins="INSERT INTO `condiciones`(`id`, `contenedor_id`, `tipo_condicion`, `observacion`, `llanta1`, `llanta2`, `llanta3`, `llanta4`, `llanta5`, `llanta6`, `llanta7`, `llanta8`, `llanta9`, `llanta10`, `llanta11`, `llanta12`) VALUES (null,'$cont','Salida','$obs','$llanta1','$llanta2','$llanta3','$llanta4','$llanta5','$llanta6','$llanta7','$llanta8','$llanta9','$llanta10','$llanta11','$llanta12')";
+$sel="select * from contenedores where id='$cont'";
+$result=mysqli_query($con,$sel);
+$row=mysqli_fetch_array($result);
+$eje=$row['ejes'];
+
+if ($eje==3) {
+
+    $llanta9=$_POST['llanta9'];
+    $llanta10=$_POST['llanta10'];
+    $llanta11=$_POST['llanta11'];
+    $llanta12=$_POST['llanta12'];
+    $ins="INSERT INTO `condiciones`(`id`, `contenedor_id`, `tipo_condicion`, `observacion`, `llanta1`, `llanta2`, `llanta3`, `llanta4`, `llanta5`, `llanta6`, `llanta7`, `llanta8`, `llanta9`, `llanta10`, `llanta11`, `llanta12`) VALUES (null,'$cont','Salida','$obs','$llanta1','$llanta2','$llanta3','$llanta4','$llanta5','$llanta6','$llanta7','$llanta8','$llanta9','$llanta10','$llanta11','$llanta12')";
 $resin=mysqli_query($con,$ins);
+
+} else {
+    $ins="INSERT INTO `condiciones`(`id`, `contenedor_id`, `tipo_condicion`, `observacion`, `llanta1`, `llanta2`, `llanta3`, `llanta4`, `llanta5`, `llanta6`, `llanta7`, `llanta8`) VALUES (null,'$cont','Salida','$obs','$llanta1','$llanta2','$llanta3','$llanta4','$llanta5','$llanta6','$llanta7','$llanta8')";
+$resin=mysqli_query($con,$ins);
+
+}
 
 if($resin){
     echo "<script> 
