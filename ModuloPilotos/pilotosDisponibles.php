@@ -157,7 +157,7 @@ if (isset($_POST["export"])) {
                                     <td scope="row"><?php echo $fila['empresa_piloto'] ?></td>
                                     <td scope="row"><?php echo $fila['fecha_ingreso'] ?></td>
                                     <td scope="row"><?php echo $fila['hora_ingreso'] ?></td>
-                                    <td align="center" scope="row"><a class="btn btn-primary" href="updatePilotos.php?id=<?php echo $fila['id'] ?>">Editar Registro</a><a class="btn btn-danger" href="salidaPiloto.php?id=<?php echo $fila['id'] ?>">Salida de Piloto</a></td>
+                                    <td align="center" scope="row"><a class="btn btn-primary" href="updatePilotos.php?id=<?php echo $fila['id'] ?>">Editar Registro</a><a class="btn btn-danger" href="salidaPilotos.php?id=<?php echo $fila['id'] ?>">Salida de Piloto</a></td>
                                 </tr>
                 <?php }
                             }

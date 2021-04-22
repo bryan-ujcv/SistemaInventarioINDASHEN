@@ -2,9 +2,9 @@
 include '../conexion.php';
 date_default_timezone_set('America/Guatemala');
 
-$fecha=date("Y-m-d");
-$hora = date("H:i:s");
-$id = $_REQUEST['id'];
+$fecha=$_POST['fecha_salida'];
+$hora = $_POST['hora_salida'];
+$id = $_POST['id'];
 
 $query="UPDATE `pilotos` SET `fecha_salida`='$fecha',`hora_salida`='$hora',`dias`=(SELECT DATEDIFF(fecha_salida,fecha_ingreso)+1),`estado`='Inactivo' WHERE `id`='$id'";
 
