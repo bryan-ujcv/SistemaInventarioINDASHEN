@@ -5,11 +5,6 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: ../index.php");
     exit;
 }
-$entrada = "SELECT cond.id as ide, con.num_contenedor as container, con.chasis as chasis, con.placa_chasis as placa, `tipo_condicion`, con.id as conid from condiciones as cond join contenedores as con where contenedor_id = con.id ";
-$input = mysqli_query($con, $entrada);
-
-$salida = "SELECT cond.id as ide, con.num_contenedor as container, con.chasis as chasis, con.placa_chasis as placa, `tipo_condicion` from condiciones as cond join contenedores as con where contenedor_id = con.id and tipo_condicion='Salida'";
-$output = mysqli_query($con, $salida);
 
 ?>
 <!DOCTYPE html>
@@ -42,11 +37,8 @@ $output = mysqli_query($con, $salida);
 
 <body>
     <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
-        <a class="btn btn-danger" href="../menuPrincipal.php">Atras</a>
         <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
-        <form method="post">
-            <input type="submit" value="Exportar Condiciones" name="export" class="btn btn-success"></input>
-        </form>
+        <a class="btn btn-danger" href="../menuPrincipal.php">Atras</a>
     </nav>
     <div class="table-responsive">
         <table id="mytable" class="table table-fixed table-bordered border-primary table-hover table-sm table-condensed">
@@ -56,34 +48,46 @@ $output = mysqli_query($con, $salida);
                     <th class="bg-light" scope="col">Numero de Contenedor</th>
                     <th class="bg-light" scope="col">Chasis</th>
                     <th class="bg-light" scope="col">Placa Chasis</th>
+                    <th class="bg-light" scope="col">Fecha</th>
                     <th class="bg-light" scope="col">Tipo de Condicion</th>
                     <th class="bg-light"></th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                while ($fila = mysqli_fetch_array($input)) {
-                    if ($fila['tipo_condicion'] == 'Entrada') {
+                $sql = "SET lc_time_names = 'es_HN';";
+                $sql .= "SELECT cond.id as ide, con.num_contenedor as container, con.chasis as chasis, con.placa_chasis as placa, DATE_FORMAT(con.fecha_ingreso,'%e/%M/%Y') as fecha_ingreso, DATE_FORMAT(con.fecha_salida,'%e/%M/%Y') as fecha_salida, `tipo_condicion`, con.id as conid from condiciones as cond join contenedores as con where contenedor_id = con.id ";
+
+                if (mysqli_multi_query($con, $sql)) {
+                    do {
+                        if ($result = mysqli_store_result($con)) {
+                            while ($fila = mysqli_fetch_array($result)) {
+                                if ($fila['tipo_condicion'] == 'Entrada') {
                 ?>
-                        <tr>
-                            <td scope="row"><?php echo $fila['ide'] ?></td>
-                            <td scope="row"><?php echo $fila['container'] ?></td>
-                            <td scope="row"><?php echo $fila['chasis'] ?></td>
-                            <td scope="row"><?php echo $fila['placa'] ?></td>
-                            <td scope="row"><?php echo $fila['tipo_condicion'] ?></td>
-                            <td scope="row"><a class="btn btn-primary" href="PDFentrada.php?conid=<?php echo $fila['conid']; ?>">Imprimir</td>
-                        </tr>
-                    <?php } else { ?>
-                        <tr>
-                            <td scope="row"><?php echo $fila['ide'] ?></td>
-                            <td scope="row"><?php echo $fila['container'] ?></td>
-                            <td scope="row"><?php echo $fila['chasis'] ?></td>
-                            <td scope="row"><?php echo $fila['placa'] ?></td>
-                            <td scope="row"><?php echo $fila['tipo_condicion'] ?></td>
-                            <td scope="row"><a class="btn btn-primary" href="PDFsalida.php?conid=<?php echo $fila['conid']; ?>">Imprimir</td>
-                        </tr>
-                    <?php } ?>
-                <?php } ?>
+                                    <tr>
+                                        <td scope="row"><?php echo $fila['ide'] ?></td>
+                                        <td scope="row"><?php echo $fila['container'] ?></td>
+                                        <td scope="row"><?php echo $fila['chasis'] ?></td>
+                                        <td scope="row"><?php echo $fila['placa'] ?></td>
+                                        <td scope="row"><?php echo $fila['fecha_ingreso'] ?></td>
+                                        <td scope="row"><?php echo $fila['tipo_condicion'] ?></td>
+                                        <td scope="row"><a class="btn btn-primary" href="PDFentrada.php?conid=<?php echo $fila['conid'] ?>">Imprimir</td>
+                                    </tr>
+                                <?php } else { ?>
+                                    <tr>
+                                        <td scope="row"><?php echo $fila['ide'] ?></td>
+                                        <td scope="row"><?php echo $fila['container'] ?></td>
+                                        <td scope="row"><?php echo $fila['chasis'] ?></td>
+                                        <td scope="row"><?php echo $fila['placa'] ?></td>
+                                        <td scope="row"><?php echo $fila['fecha_salida'] ?></td>
+                                        <td scope="row"><?php echo $fila['tipo_condicion'] ?></td>
+                                        <td scope="row"><a class="btn btn-primary" href="../ModuloCondiciones/PDFsalida.php?conid=<?php echo $fila['conid'] ?>">Imprimir</td>
+                                    </tr>
+                                <?php } ?>
+                <?php }
+                        }
+                    } while (mysqli_next_result($con));
+                } ?>
             </tbody>
         </table>
     </div>

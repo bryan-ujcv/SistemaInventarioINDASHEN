@@ -40,9 +40,6 @@ $empresa = $rowi['empresa_ingreso'];
 <body>
     <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
         <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
-        <form method="post">
-            <input type="submit" value="Exportar Condiciones" name="export" class="btn btn-success"></input>
-        </form>
     </nav>
     <form action="input.php" method="post">
         <div class="row">
@@ -175,8 +172,14 @@ $empresa = $rowi['empresa_ingreso'];
                 <textarea name="observacion" id="observacion" cols="90" rows="5"></textarea>
             </div>
         </div>
-        <button type="submit" id="btn" class="btn btn-primary">Guardar</button>
+        <button type="submit" id="btn" class="btn btn-primary">Guardar</button><br><br>
     </form>
+
+    <nav class="navbar fixed-bottom" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
+        </div>
+    </nav>
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

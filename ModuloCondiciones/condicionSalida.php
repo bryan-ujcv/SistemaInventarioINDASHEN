@@ -32,9 +32,6 @@ $row=mysqli_fetch_array($res);
 <body>
     <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
         <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
-        <form method="post">
-            <input type="submit" value="Exportar Condiciones" name="export" class="btn btn-success"></input>
-        </form>
     </nav>
     <form action="output.php" method="post">
         <div class="row">
@@ -54,15 +51,15 @@ $row=mysqli_fetch_array($res);
         </div>
         <div class="row">
             <div class="form-group col-md-3">
-                <h5>Piloto de Ingreso</h5>
+                <h5>Piloto de Salida</h5>
                 <input type="text" disabled value="<?php echo $rowi['piloto_salida'] ?>" class="form-control" id="piloto" name="piloto_ingreso" placeholder="Piloto de Ingreso"><br>
             </div>
             <div class="form-group col-md-3">
-                <h5>Placa del Piloto de Ingreso</h5>
+                <h5>Placa del Piloto de Salida</h5>
                 <input type="text" disabled class="form-control" value="<?php echo $rowi['placa_piloto_salida'] ?>" id="placapiloto" name="placa_piloto_ingreso" placeholder="Placa del Piloto de Ingreso"><br>
             </div>
             <div class="col-md-3">
-                <h5>Empresa de Ingreso</h5>
+                <h5>Empresa de Salida</h5>
                 <input type="text" disabled class="form-control" id="empresa" value="<?php echo $rowi['empresa_salida'] ?>" name="empresa" placeholder="Empresa de Ingreso"><br>
             </div>
         </div>
@@ -167,8 +164,14 @@ $row=mysqli_fetch_array($res);
                 <textarea name="observacion" id="observacion" cols="90" rows="5"><?php echo $row['observacion'] ?></textarea>
             </div>
         </div>
-        <button type="submit" id="btn" class="btn btn-primary">Guardar</button>
+        <button type="submit" id="btn" class="btn btn-primary">Guardar</button><br><br>
     </form>
+
+    <nav class="navbar fixed-bottom" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
+        </div>
+    </nav>
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
