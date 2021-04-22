@@ -35,17 +35,17 @@ if ($fila = $sel->fetch_assoc()) {
             <div class="row">
                 <div class="col-md-3">
                     <h5>Numero del Contenedor</h5>
-                    <input type="text" class="form-control" name="num_contenedor" placeholder="Numero del Contenedor" disabled value="<?php echo $fila['num_contenedor'] ?>"><br>
+                    <input type="text" class="form-control" name="num_contenedor" placeholder="Numero del Contenedor" value="<?php echo $fila['num_contenedor'] ?>"><br>
                 </div>
                 <div class="col-md-2">
                     <h5>Chasis</h5>
-                    <input type="text" class="form-control" name="chasis" placeholder="Chasis" disabled value="<?php echo $fila['chasis'] ?>"><br>
+                    <input type="text" class="form-control" name="chasis" placeholder="Chasis" value="<?php echo $fila['chasis'] ?>"><br>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-2">
                     <h5>Placa Chasis</h5>
-                    <input type="text" class="form-control" name="placa_chasis" placeholder="Placa Chasis" disabled value="<?php echo $fila['placa_chasis'] ?>"><br>
+                    <input type="text" class="form-control" name="placa_chasis" placeholder="Placa Chasis" value="<?php echo $fila['placa_chasis'] ?>"><br>
                 </div>
                 <div class="col-md-2">
                     <h5>Observacion</h5>

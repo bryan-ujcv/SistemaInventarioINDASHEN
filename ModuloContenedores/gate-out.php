@@ -78,6 +78,10 @@ if ($fila = $sel->fetch_assoc()) {
                     <h5>Booking</h5>
                     <input type="text" class="form-control" name="booking" placeholder="Booking"><br><br>
                 </div>
+                <div class="col-md-3">
+                    <h5>Fecha de Salida</h5>
+                    <input type="date" id="fecha_salida" class="form-control" name="fecha_salida" ><br>
+                </div>
             </div>
             <button type="submit" id="update" disabled class="btn btn-primary">Actualizar</button>
         </form>

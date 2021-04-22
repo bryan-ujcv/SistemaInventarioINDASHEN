@@ -11,6 +11,8 @@ $id = $_REQUEST['id'];
 $sel = $con->query("SELECT * FROM pilotos WHERE id = '$id';");
 if ($fila = $sel->fetch_assoc()) {
 }
+$query = "SELECT * from empresas";
+$result = mysqli_query($con, $query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,29 +33,39 @@ if ($fila = $sel->fetch_assoc()) {
     <img src="../CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
     <div class="container">
         <form action="updPiloto.php" method="post">
-        <input type="hidden" name="id" value="<?php echo $id ?>">
+            <input type="hidden" name="id" value="<?php echo $id ?>">
             <div class="row">
                 <div class="form-group col-md-3">
                     <h5>Nombre del Piloto</h5>
-                    <input type="text" class="form-control" id="piloto" name="piloto_ingreso" disabled value="<?php echo $fila['nombre_piloto'] ?>" placeholder="Piloto de Ingreso"><br>
+                    <input type="text" class="form-control" id="piloto" name="piloto_ingreso" value="<?php echo $fila['nombre_piloto'] ?>" placeholder="Piloto de Ingreso"><br>
                 </div>
                 <div class="form-group col-md-3">
                     <h5>Placa del Piloto</h5>
-                    <input type="text" class="form-control" id="placapiloto" disabled value="<?php echo $fila['placa_piloto'] ?>" name="placa_piloto_ingreso" placeholder="Placa del Piloto de Ingreso"><br>
+                    <input type="text" class="form-control" id="placapiloto" value="<?php echo $fila['placa_piloto'] ?>" name="placa_piloto_ingreso" placeholder="Placa del Piloto de Ingreso"><br>
                 </div>
                 <div class="form-group col-md-3">
                     <h5>Empresa</h5>
-                    <input type="text" class="form-control" id="empresa" disabled value="<?php echo $fila['empresa_piloto'] ?>" name="empresa_ingreso" placeholder="Empresa"></input><br>
+                    <select type="text" class="form-control" id="empresa" name="empresa_piloto" placeholder="Empresa">
+                        <option value="<?php echo $fila['empresa_piloto'] ?>" selected><?php echo $fila['empresa_piloto'] ?></option>
+                        <?php
+                        while ($row = mysqli_fetch_array($result)) {
+                        ?>
+
+                            <option value="<?php echo $row['nombre'] ?>"><?php echo $row['nombre']; ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select><br>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3">
                     <h5>Fecha de Ingreso</h5>
-                    <input type="date" id="fecha_ingreso" class="form-control" name="fecha_ingreso"><br>
+                    <input type="date" id="fecha_ingreso" class="form-control" name="fecha_ingreso" value="<?php echo $fila['fecha_ingreso'] ?>"><br>
                 </div>
                 <div class="col-md-3">
                     <h5>Hora de Ingreso</h5>
-                    <input type="time" id="hora_ingreso" class="form-control" name="hora_ingreso"><br>
+                    <input type="time" id="hora_ingreso" class="form-control" name="hora_ingreso" ><br>
                 </div>
             </div>
             <button type="submit" id="btn" class="btn btn-primary">Guardar</button>
