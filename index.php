@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($username_err) && empty($password_err)) {
 
-        $sql = "SELECT id, usuario, contrasena FROM usuarios WHERE usuario = ? AND estado='Activo'";
+        $sql = "SELECT id, usuario, contrasena, rol FROM usuarios WHERE usuario = ? AND estado='Activo'";
 
         if ($stmt = mysqli_prepare($con, $sql)) {
 
@@ -41,13 +41,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 if (mysqli_stmt_num_rows($stmt) == 1) {
 
-                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
+                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password,$rol);
                     if (mysqli_stmt_fetch($stmt)) {
                         if (password_verify($password, $hashed_password)) {
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;
-                            header("location: menuPrincipal.php");
+                            $_SESSION["rol"]=$rol;
+                            if($rol='Administrador'){
+                                header("location: menuPrincipal.php");
+                            }else{
+                                header("location: menuPrincipal.php");
+                            }
                         } else {
                             $password_err = "La Contraseña no es valida.";
                         }
