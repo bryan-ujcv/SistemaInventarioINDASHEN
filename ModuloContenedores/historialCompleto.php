@@ -10,7 +10,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 $query = "SET lc_time_names = 'es_HN';";
-$query .= "SELECT `id`, `num_contenedor`, `chasis`, `placa_chasis`, DATE_FORMAT(`fecha_ingreso`,'%e/%M/%Y') as 'fecha_ingreso', `piloto_ingreso`, `placa_piloto_ingreso`, `empresa_ingreso`, DATE_FORMAT(`fecha_salida`,'%e/%M/%Y') as 'fecha_salida', `piloto_salida`, `placa_piloto_salida`, `empresa_salida`, `dias`, `genset`, `booking`, `tamano`, `ejes`, `observacion`, DATE_FORMAT(`hora_ingreso`,'%r') as 'hora_ingreso', DATE_FORMAT(`hora_salida`,'%r') as 'hora_salida',`tipo_tamano` FROM `contenedores`;";
+$query .= "SELECT `id`, `num_contenedor`, `chasis`, `placa_chasis`, DATE_FORMAT(`fecha_ingreso`,'%e/%M/%Y') as 'fecha_ingreso', `piloto_ingreso`, `placa_piloto_ingreso`, `empresa_ingreso`, DATE_FORMAT(`fecha_salida`,'%e/%M/%Y') as 'fecha_salida', `piloto_salida`, `placa_piloto_salida`, `empresa_salida`, `dias`, `genset`, `booking`, `tamano`, `ejes`, `observacion`, DATE_FORMAT(`hora_ingreso`,'%r') as 'hora_ingreso', DATE_FORMAT(`hora_salida`,'%r') as 'hora_salida',`tipo_tamano`,`destino` FROM `contenedores`;";
 
 if (isset($_POST["export"])) {
 
@@ -46,8 +46,9 @@ if (isset($_POST["export"])) {
   $active_sheet->getColumnDimension('O')->setAutoSize(true);
   $active_sheet->getColumnDimension('P')->setAutoSize(true);
   $active_sheet->getColumnDimension('Q')->setAutoSize(true);
+  $active_sheet->getColumnDimension('R')->setAutoSize(true);
 
-  $active_sheet->getStyle('A1:Q1')->applyFromArray($styleArray)->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+  $active_sheet->getStyle('A1:R1')->applyFromArray($styleArray)->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
   $active_sheet->setCellValue('A1', 'ID');
   $active_sheet->setCellValue('B1', 'Numero de Contenedor');
@@ -65,7 +66,8 @@ if (isset($_POST["export"])) {
   $active_sheet->setCellValue('N1', 'Piloto de Salida');
   $active_sheet->setCellValue('O1', 'Placa de Piloto de Salida');
   $active_sheet->setCellValue('P1', 'Empresa de Salida');
-  $active_sheet->setCellValue('Q1', 'Dias');
+  $active_sheet->setCellValue('Q1', 'Destino');
+  $active_sheet->setCellValue('R1', 'Dias');
 
   $count = 2;
   $x2 = 1;
@@ -89,7 +91,8 @@ if (isset($_POST["export"])) {
           $active_sheet->setCellValue('N' . $count, $fila["piloto_salida"]);
           $active_sheet->setCellValue('O' . $count, $fila["placa_piloto_salida"]);
           $active_sheet->setCellValue('P' . $count, $fila["empresa_salida"]);
-          $active_sheet->setCellValue('Q' . $count, $fila["dias"]);
+          $active_sheet->setCellValue('Q' . $count, $fila["destino"]);
+          $active_sheet->setCellValue('R' . $count, $fila["dias"]);
 
           $active_sheet->getStyle("A$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
           $active_sheet->getStyle("B$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
@@ -108,6 +111,7 @@ if (isset($_POST["export"])) {
           $active_sheet->getStyle("O$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
           $active_sheet->getStyle("P$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
           $active_sheet->getStyle("Q$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
+          $active_sheet->getStyle("R$count")->applyFromArray($styleArray)->getAlignment()->setWrapText(true);
           $count = $count + 1;
         }
       }
@@ -204,6 +208,7 @@ if (isset($_POST["export"])) {
           <th class="bg-info" scope="col">Piloto Salida</th>
           <th class="bg-info" scope="col">Placa Piloto Salida</th>
           <th class="bg-info" scope="col">Empresa Salida</th>
+          <th class="bg-light" scope="col">Destino</th>
           <th class="bg-light" scope="col">Dias</th>
         </tr>
       </thead>
@@ -231,6 +236,7 @@ if (isset($_POST["export"])) {
                   <td scope="row"><?php echo $fila['piloto_salida'] ?></td>
                   <td scope="row"><?php echo $fila['placa_piloto_salida'] ?></td>
                   <td scope="row"><?php echo $fila['empresa_salida'] ?></td>
+                  <td scope="row"><?php echo $fila['destino'] ?></td>
                   <td scope="row"><?php echo $fila['dias'] ?></td>
                 </tr>
         <?php

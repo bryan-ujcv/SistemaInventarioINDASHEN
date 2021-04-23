@@ -5,7 +5,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: ../index.php");
     exit;
 }
-$query = "SELECT * from empresas";
+$query = "SELECT * from empresas where estado='Activo'";
 $result = mysqli_query($con, $query);
 
 $query2 = "SELECT * FROM `tamaños`";

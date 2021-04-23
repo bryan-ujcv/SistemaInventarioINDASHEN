@@ -5,8 +5,11 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: ../index.php");
     exit;
 }
-$query = "SELECT id, nombre from empresas";
+$query = "SELECT id, nombre from empresas where estado='Activo'";
 $result = mysqli_query($con, $query);
+
+$query2 = "SELECT * from destinos";
+$result2 = mysqli_query($con, $query2);
 
 $id = $_REQUEST['id'];
 $sel = $con->query("SELECT * FROM contenedores WHERE id = '$id';");
@@ -44,12 +47,12 @@ if ($fila = $sel->fetch_assoc()) {
                     <h5>Chasis</h5>
                     <input type="text" class="form-control" name="chasis" placeholder="Chasis" disabled value="<?php echo $fila['chasis'] ?>"><br>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-2">
                     <h5>Placa Chasis</h5>
                     <input type="text" class="form-control" name="placa_chasis" placeholder="Placa Chasis" disabled value="<?php echo $fila['placa_chasis'] ?>"><br>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-2">
                     <h5>Piloto de Salida</h5>
                     <input type="text" id="pilotosal" class="form-control" name="piloto_salida" placeholder="Piloto de Salida"><br>
@@ -58,8 +61,6 @@ if ($fila = $sel->fetch_assoc()) {
                     <h5>Placa del Piloto de Salida</h5>
                     <input type="text" id="placasal" class="form-control" name="placa_piloto_salida" placeholder="Placa del Piloto de Salida"><br>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-3">
                     <h5>Empresa de Salida</h5>
                     <select type="text" id="empresasal" class="form-control" name="empresa_salida" placeholder="Empresa de Salida">
@@ -74,9 +75,24 @@ if ($fila = $sel->fetch_assoc()) {
                         ?>
                     </select><br>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-2">
                     <h5>Booking</h5>
                     <input type="text" class="form-control" name="booking" placeholder="Booking"><br><br>
+                </div>
+                <div class="col-md-3">
+                    <h5>Destino</h5>
+                    <select type="text" id="destino" class="form-control" name="destino" placeholder="Destino">
+                        <option value="" disabled selected>Seleccionar una Opcion</option>
+                        <?php
+                        while ($row = mysqli_fetch_array($result2)) {
+                        ?>
+                            <option value="<?php echo $row['destino'] ?>"><?php echo $row['destino']; ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select><br>
                 </div>
                 <div class="col-md-3">
                     <h5>Fecha de Salida</h5>
