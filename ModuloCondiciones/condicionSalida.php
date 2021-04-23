@@ -164,9 +164,9 @@ $row=mysqli_fetch_array($res);
                 <textarea name="observacion" id="observacion" cols="90" rows="5"><?php echo $row['observacion'] ?></textarea>
             </div>
         </div>
-        <button type="submit" id="btn" class="btn btn-primary">Guardar</button><br><br>
+        <button type="submit" id="btn" class="btn btn-primary">Guardar</button>
     </form>
-
+<br><br><br>
     <nav class="navbar fixed-bottom" style="background-color: #e3f2fd;">
         <div class="container-fluid">
             <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
