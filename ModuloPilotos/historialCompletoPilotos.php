@@ -195,7 +195,7 @@ if (isset($_POST["export"])) {
             </tbody>
         </table>
     </div>
-    <nav class="navbar " style="background-color: #e3f2fd;">
+    <nav class="navbar fixed-bottom" style="background-color: #e3f2fd;">
         <div class="container-fluid">
             <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
         </div>

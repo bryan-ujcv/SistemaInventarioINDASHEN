@@ -59,6 +59,7 @@ if ($fila = $sel->fetch_assoc()) {
             <button type="submit" id="update" class="btn btn-primary">Actualizar</button>
         </form>
     </div>
+    <br><br><br>
     <nav class="navbar fixed-bottom " style="background-color: #e3f2fd;">
         <div class="container-fluid">
             <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>

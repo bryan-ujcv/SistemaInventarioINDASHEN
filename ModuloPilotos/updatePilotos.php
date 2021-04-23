@@ -71,6 +71,7 @@ $result = mysqli_query($con, $query);
             <button type="submit" id="btn" class="btn btn-primary">Guardar</button>
         </form>
     </div>
+    <br><br><br>
     <nav class="navbar fixed-bottom" style="background-color: #e3f2fd;">
         <div class="container-fluid">
             <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
