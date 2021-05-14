@@ -10,7 +10,7 @@ $LC = "SELECT id, ejes FROM contenedores ORDER BY id DESC LIMIT 1";
 $resultID = mysqli_query($con, $LC);
 $row = mysqli_fetch_array($resultID);
 $id = $row['id'];
-$eje=$row['ejes'];
+$eje = $row['ejes'];
 
 $sel = "select * from contenedores where id='$id'";
 $result = mysqli_query($con, $sel);
@@ -34,7 +34,23 @@ $empresa = $rowi['empresa_ingreso'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Condicion de Entrada</title>
     <link rel="shortcut icon" href="../CSS/IMG/image001.ico">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css">
+
+    <link rel="stylesheet" type="text/css" href="../CSS/jquery.signature.css">
+
+    <style>
+        .kbw-signature {
+            width: 400px;
+            height: 200px;
+        }
+
+        #sig canvas {
+            width: 100% !important;
+            height: auto;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -72,104 +88,111 @@ $empresa = $rowi['empresa_ingreso'];
             </div>
         </div>
         <h5>Llantas</h5><br>
-        <?php if ($eje==3) {?>
+        <?php if ($eje == 3) { ?>
             <div class="row">
-            <div class="form-group col-md-3">
-                <h5>Llanta #1</h5>
-                <input type="text" class="form-control" id="llanta1" name="llanta1" placeholder="llanta1"><br>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #1</h5>
+                    <input type="text" class="form-control" id="llanta1" name="llanta1" placeholder="llanta1"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #2</h5>
+                    <input type="text" class="form-control" id="llanta2" name="llanta2" placeholder="llanta2"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #3</h5>
+                    <input type="text" class="form-control" id="llanta3" name="llanta3" placeholder="llanta3"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #4</h5>
+                    <input type="text" class="form-control" id="llanta4" name="llanta4" placeholder="llanta4"><br>
+                </div>
             </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #2</h5>
-                <input type="text" class="form-control" id="llanta2" name="llanta2" placeholder="llanta2"><br>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <h5>Llanta #5</h5>
+                    <input type="text" class="form-control" id="llanta5" name="llanta5" placeholder="llanta5"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #6</h5>
+                    <input type="text" class="form-control" id="llanta6" name="llanta6" placeholder="llanta6"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #7</h5>
+                    <input type="text" class="form-control" id="llanta7" name="llanta7" placeholder="llanta7"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #8</h5>
+                    <input type="text" class="form-control" id="llanta8" name="llanta8" placeholder="llanta8"><br>
+                </div>
             </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #3</h5>
-                <input type="text" class="form-control" id="llanta3" name="llanta3" placeholder="llanta3"><br>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <h5>Llanta #9</h5>
+                    <input type="text" class="form-control" id="llanta9" name="llanta9" placeholder="llanta9"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #10</h5>
+                    <input type="text" class="form-control" id="llanta10" name="llanta10" placeholder="llanta10"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #11</h5>
+                    <input type="text" class="form-control" id="llanta11" name="llanta11" placeholder="llanta11"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #12</h5>
+                    <input type="text" class="form-control" id="llanta12" name="llanta12" placeholder="llanta12"><br>
+                </div>
             </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #4</h5>
-                <input type="text" class="form-control" id="llanta4" name="llanta4" placeholder="llanta4"><br>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-3">
-                <h5>Llanta #5</h5>
-                <input type="text" class="form-control" id="llanta5" name="llanta5" placeholder="llanta5"><br>
-            </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #6</h5>
-                <input type="text" class="form-control" id="llanta6" name="llanta6" placeholder="llanta6"><br>
-            </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #7</h5>
-                <input type="text" class="form-control" id="llanta7" name="llanta7" placeholder="llanta7"><br>
-            </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #8</h5>
-                <input type="text" class="form-control" id="llanta8" name="llanta8" placeholder="llanta8"><br>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-3">
-                <h5>Llanta #9</h5>
-                <input type="text" class="form-control" id="llanta9" name="llanta9" placeholder="llanta9"><br>
-            </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #10</h5>
-                <input type="text" class="form-control" id="llanta10" name="llanta10" placeholder="llanta10"><br>
-            </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #11</h5>
-                <input type="text" class="form-control" id="llanta11" name="llanta11" placeholder="llanta11"><br>
-            </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #12</h5>
-                <input type="text" class="form-control" id="llanta12" name="llanta12" placeholder="llanta12"><br>
-            </div>
-        </div>
         <?php } else { ?>
             <div class="row">
-            <div class="form-group col-md-3">
-                <h5>Llanta #1</h5>
-                <input type="text" class="form-control" id="llanta1" name="llanta1" placeholder="llanta1"><br>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #1</h5>
+                    <input type="text" class="form-control" id="llanta1" name="llanta1" placeholder="llanta1"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #2</h5>
+                    <input type="text" class="form-control" id="llanta2" name="llanta2" placeholder="llanta2"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #3</h5>
+                    <input type="text" class="form-control" id="llanta3" name="llanta3" placeholder="llanta3"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #4</h5>
+                    <input type="text" class="form-control" id="llanta4" name="llanta4" placeholder="llanta4"><br>
+                </div>
             </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #2</h5>
-                <input type="text" class="form-control" id="llanta2" name="llanta2" placeholder="llanta2"><br>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <h5>Llanta #5</h5>
+                    <input type="text" class="form-control" id="llanta5" name="llanta5" placeholder="llanta5"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #6</h5>
+                    <input type="text" class="form-control" id="llanta6" name="llanta6" placeholder="llanta6"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #7</h5>
+                    <input type="text" class="form-control" id="llanta7" name="llanta7" placeholder="llanta7"><br>
+                </div>
+                <div class="form-group col-md-3">
+                    <h5>Llanta #8</h5>
+                    <input type="text" class="form-control" id="llanta8" name="llanta8" placeholder="llanta8"><br>
+                </div>
             </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #3</h5>
-                <input type="text" class="form-control" id="llanta3" name="llanta3" placeholder="llanta3"><br>
-            </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #4</h5>
-                <input type="text" class="form-control" id="llanta4" name="llanta4" placeholder="llanta4"><br>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-3">
-                <h5>Llanta #5</h5>
-                <input type="text" class="form-control" id="llanta5" name="llanta5" placeholder="llanta5"><br>
-            </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #6</h5>
-                <input type="text" class="form-control" id="llanta6" name="llanta6" placeholder="llanta6"><br>
-            </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #7</h5>
-                <input type="text" class="form-control" id="llanta7" name="llanta7" placeholder="llanta7"><br>
-            </div>
-            <div class="form-group col-md-3">
-                <h5>Llanta #8</h5>
-                <input type="text" class="form-control" id="llanta8" name="llanta8" placeholder="llanta8"><br>
-            </div>
-        </div>
         <?php }  ?>
-        
+
         <div class="row">
             <div class="form-group col-md">
                 <h5>Observaciones Generales</h5>
                 <textarea name="observacion" id="observacion" cols="90" rows="5"></textarea>
+            </div>
+            <div class="form-group col-md">
+                <h5>Firma:</h5>
+                <div id="sig"></div>
+                <br />
+                <button id="clear">Limpiar Firma</button>
+                <textarea id="signature64" name="signed" style="display: none"></textarea>
             </div>
         </div>
         <button type="submit" id="btn" class="btn btn-primary">Guardar</button>
@@ -181,10 +204,21 @@ $empresa = $rowi['empresa_ingreso'];
         </div>
     </nav>
 </body>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.23/datatables.min.css" />
-<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.23/datatables.min.js"></script>
+<link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/south-street/jquery-ui.css" rel="stylesheet">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../JS/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="../JS/jquery.signature.min.js"></script>
+<script type="text/javascript">
+    var sig = $('#sig').signature({
+        syncField: '#signature64',
+        syncFormat: 'PNG'
+    });
+    $('#clear').click(function(e) {
+        e.preventDefault();
+        sig.signature('clear');
+        $("#signature64").val('');
+    });
+</script>
 
 </html>
