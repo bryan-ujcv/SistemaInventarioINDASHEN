@@ -6,30 +6,22 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     exit;
 }
 
-// Define variables and initialize with empty values
+$query = "SELECT * FROM `roles`";
+$result = mysqli_query($con, $query);
+
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
 
-// Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // Validate username
     if (empty(trim($_POST["username"]))) {
         $username_err = "Por Favor Ingrese un Usuario.";
     } else {
-        // Prepare a select statement
         $sql = "SELECT id FROM usuarios WHERE usuario = ?";
 
         if ($stmt = mysqli_prepare($con, $sql)) {
-            // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "s", $param_username);
-
-            // Set parameters
             $param_username = trim($_POST["username"]);
-
-            // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
-                /* store result */
                 mysqli_stmt_store_result($stmt);
 
                 if (mysqli_stmt_num_rows($stmt) == 1) {
@@ -40,13 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 echo "Ocurrio algo imprevisto. Pruebe otra vez mas tarde";
             }
-
-            // Close statement
             mysqli_stmt_close($stmt);
         }
     }
-
-    // Validate password
     if (empty(trim($_POST["password"]))) {
         $password_err = "Por Favor Ingrese una Contraseña.";
     } elseif (strlen(trim($_POST["password"])) < 6) {
@@ -54,8 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $password = trim($_POST["password"]);
     }
-
-    // Validate confirm password
     if (empty(trim($_POST["confirm_password"]))) {
         $confirm_password_err = "Por favor confirme la Contraseña.";
     } else {
@@ -64,35 +50,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $confirm_password_err = "Contraseñas distintas Verifique bien.";
         }
     }
-
-    // Check input errors before inserting in database
     if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
 
-        // Prepare an insert statement
-        $sql = "INSERT INTO usuarios (usuario, contrasena, estado) VALUES (?, ?, 'Activo')";
-
-        if ($stmt = mysqli_prepare($con, $sql)) {
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
-
-            // Set parameters
-            $param_username = $username;
-            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-
-            // Attempt to execute the prepared statement
-            if (mysqli_stmt_execute($stmt)) {
-                // Redirect to login page
-                header("location: index.php");
+        $new_user = $username;
+        $new_pass = password_hash($password, PASSWORD_DEFAULT);
+        $rol = $_POST['rol'];
+        $sql = "INSERT INTO usuarios (usuario, contrasena, rol, estado) VALUES ('$new_user', '$new_pass', '$rol', 'Activo')";
+        $resul = mysqli_query($con, $sql);
+        if ($resul) {
+            if ($_SESSION['rol'] == 'Administrador') {
+                header("location: Admin/menuPrincipal.php");
             } else {
-                echo "Ocurrio algo imprevisto. Pruebe otra vez mas tarde.";
+                header("location: Estandar/menuPrincipal.php");
             }
-
-            // Close statement
-            mysqli_stmt_close($stmt);
+        } else {
+            echo "Ocurrio algo imprevisto. Pruebe otra vez mas tarde.";
         }
     }
-
-    // Close connection
     mysqli_close($con);
 }
 ?>
@@ -110,27 +84,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
         <div>
-            <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
+            <?php if ($_SESSION["rol"] == 'Administrador') { ?>
+                <a class="btn btn-danger" href="Admin/menuPrincipal.php">Atras</a>
+            <?php } else { ?>
+                <a class="btn btn-danger" href="Estandar/menuPrincipal.php">Atras</a>
+            <?php } ?>
         </div>
     </nav>
     <div class="">
         <div class="col-md-4">
             <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
-            <h2>Registro de Usuario</h2>
-            <p>Por favor llene los campos para poder crear un usuario.</p>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                    <label>Usuario</label>
+                    <h5>Usuario Nuevo</h5>
                     <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
                     <span class="help-block"><?php echo $username_err; ?></span>
                 </div>
+                <div class="form-group">
+                    <h5>Rol del Usuario</h5>
+                    <select type="text" class="form-control" id="rol" name="rol" placeholder="Rol de Usuario">
+                        <option disabled value="" selected>Seleccionar una Opcion</option>
+                        <?php
+                        while ($row = mysqli_fetch_array($result)) {
+                        ?>
+                            <option value="<?php echo $row['rol'] ?>"><?php echo $row['rol']; ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                </div>
                 <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                    <label>Contraseña</label>
+                    <h5>Contraseña</h5>
                     <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
                     <span class="help-block"><?php echo $password_err; ?></span>
                 </div>
                 <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
-                    <label>Confirmar Contraseña</label>
+                    <h5>Confirmar Contraseña</h5>
                     <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
                     <span class="help-block"><?php echo $confirm_password_err; ?></span>
                 </div>
@@ -141,7 +130,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
         </div>
     </div>
-    <nav class="navbar " style="background-color: #e3f2fd;">
+    <br><br><br>
+    <nav class="navbar fixed-bottom" style="background-color: #e3f2fd;">
         <div class="container-fluid">
             <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
         </div>

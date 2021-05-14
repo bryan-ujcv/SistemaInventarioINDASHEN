@@ -31,22 +31,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($new_password_err) && empty($confirm_password_err)) {
-        $sql = "UPDATE usuarios SET contrasena = ? WHERE usuario = ?";
+        $new_pass = password_hash($new_password, PASSWORD_DEFAULT);
+        $user = $_SESSION["username"];
+        $sql = "UPDATE usuarios SET contrasena = '$new_pass' WHERE usuario = '$user'";
+        $resul = mysqli_query($con, $sql);
 
-        if ($stmt = mysqli_prepare($con, $sql)) {
-            mysqli_stmt_bind_param($stmt, "si", $param_password, $param_id);
-
-            $param_password = password_hash($new_password, PASSWORD_DEFAULT);
-            $param_id = $_SESSION["username"];
-
-            if (mysqli_stmt_execute($stmt)) {
-                session_destroy();
-                header("location: index.php");
-                exit();
-            } else {
-                echo "Ocurrio algo imprevisto. Pruebe otra vez mas tarde.";
-            }
-            mysqli_stmt_close($stmt);
+        if ($resul) {
+            session_destroy();
+            header("location: index.php");
+            exit();
+        } else {
+            echo "Ocurrio algo imprevisto. Pruebe otra vez mas tarde.";
         }
     }
     mysqli_close($con);
@@ -76,33 +71,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <nav class="navbar sticky-top navbar-light justify-content-between" style="background-color: #e3f2fd;">
         <div>
-            <a class="btn btn-danger" href="menuPrincipal.php">Atras</a>
+            <?php if ($_SESSION["rol"] == 'Administrador') { ?>
+                <a class="btn btn-danger" href="Admin/menuPrincipal.php">Atras</a>
+            <?php } else { ?>
+                <a class="btn btn-danger" href="Estandar/menuPrincipal.php">Atras</a>
+            <?php } ?>
         </div>
     </nav>
     <div class="container">
         <div class="col-sm-4 wrapper">
             <img src="CSS/IMG/image001.png" class="img-fluid" alt="Responsive image">
-            <h2>Cambio de Contraseña</h2>
-            <p>Porfavor llene los campos para cambiar la contraseña.</p>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <div class="form-group">
+                    <h5>Usuario</h5>
+                    <input type="text" class="form-control" disabled value="<?php echo $_SESSION['username'] ?>">
+                </div>
                 <div class="form-group <?php echo (!empty($new_password_err)) ? 'has-error' : ''; ?>">
-                    <label>Nueva Contraseña</label>
+                    <h5>Nueva Contraseña</h5>
                     <input type="password" name="new_password" class="form-control" value="<?php echo $new_password; ?>">
                     <span class="help-block"><?php echo $new_password_err; ?></span>
                 </div>
                 <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
-                    <label>Confirmar Contraseña</label>
+                    <h5>Confirmar Contraseña</h5>
                     <input type="password" name="confirm_password" class="form-control">
                     <span class="help-block"><?php echo $confirm_password_err; ?></span>
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" value="Cambiar">
-                    <a class="btn btn-link" href="menuPrincipal.php">Cancelar</a>
                 </div>
             </form>
         </div>
     </div>
-    <nav class="navbar fixed-bottom ">
+    <br><br><br>
+    <nav class="navbar fixed-bottom" style="background-color: #e3f2fd;">
         <div class="container-fluid">
             <h6 class="navbar-brand" href="#"><small>Desarrollado por Bryan Nuñez.</small></h6>
         </div>

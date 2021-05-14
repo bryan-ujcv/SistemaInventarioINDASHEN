@@ -48,10 +48,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;
                             $_SESSION["rol"]=$rol;
-                            if($rol='Administrador'){
-                                header("location: menuPrincipal.php");
+                            if($rol=='Administrador'){
+                                header("location: Admin/menuPrincipal.php");
                             }else{
-                                header("location: menuPrincipal.php");
+                                header("location: Estandar/menuPrincipal.php");
                             }
                         } else {
                             $password_err = "La Contraseña no es valida.";
